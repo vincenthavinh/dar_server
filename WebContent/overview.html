@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>Test WebContent</title>
+<meta charset="UTF-8">
+</head>
+<body>
+	<label for="text_id">texte à envoyer</label>
+	<input type="text" id="text_id" />
+
+	<input type="button" value="GO" onclick="go()" />
+
+	<p id="resp_id">z</p>
+
+	<script>
+		function go() {
+			var xhttp = new XMLHttpRequest();
+			
+			/*sur reception de la reponse*/ 
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4) {
+					document.getElementById("resp_id").innerHTML = this.responseText;
+				}
+			};
+			
+			/*texte a envoyer*/
+			var text = document.getElementById("text_id").value;
+			
+			/*envoi asynchrone au servlet*/
+			xhttp.open("GET", "test?text="+text, true);
+			xhttp.send();
+		}
+	</script>
+</body>
+</html>

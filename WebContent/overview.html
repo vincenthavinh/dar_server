@@ -4,31 +4,20 @@
 <meta charset="UTF-8">
 </head>
 <body>
-	<label for="text_id">texte à envoyer</label>
-	<input type="text" id="text_id" />
+	<h2>Servlet /test</h2>
+	<input type="text" id="text_id" placeholder="texte à envoyer" />
+	<input type="button" value="GO" onclick="test('text_id', 'test_resp_id')" />
+	<p id="test_resp_id"></p>
 
-	<input type="button" value="GO" onclick="go()" />
+	<h2>Servlet /signup</h2>
+	<input type="text" id="username_id" placeholder="username" />
+	<input type="password" id="password_id" placeholder="password" />
+	<input type="password" id="confirmation_id" placeholder="confirm password" />
+	<input type="button" value="Sign Up" 
+		onclick="signup('username_id', 'password_id', 'confirmation_id', 'signup_resp_id')" />
+	<p id="signup_resp_id"></p>
 
-	<p id="resp_id">z</p>
 
-	<script>
-		function go() {
-			var xhttp = new XMLHttpRequest();
-			
-			/*sur reception de la reponse*/ 
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4) {
-					document.getElementById("resp_id").innerHTML = this.responseText;
-				}
-			};
-			
-			/*texte a envoyer*/
-			var text = document.getElementById("text_id").value;
-			
-			/*envoi asynchrone au servlet*/
-			xhttp.open("GET", "test?text="+text, true);
-			xhttp.send();
-		}
-	</script>
+	<script src="overview.js"></script> 
 </body>
 </html>

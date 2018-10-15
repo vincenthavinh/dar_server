@@ -8,10 +8,21 @@
 		<servlet-name>Test</servlet-name>
 		<servlet-class>servlets.Test</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>Signup</servlet-name>
+		<servlet-class>servlets.Signup</servlet-class>
+	</servlet>
+	
 
 	<servlet-mapping>
 		<servlet-name>Test</servlet-name>
 		<url-pattern>/test</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Signup</servlet-name>
+		<url-pattern>/signup</url-pattern>
 	</servlet-mapping>
 
 	<display-name>server</display-name>

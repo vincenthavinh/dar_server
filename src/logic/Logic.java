@@ -5,12 +5,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 public abstract class Logic {
 	
-	protected String result;
+	protected static final String USERNAME_FIELD = "username";
+	protected static final String PASSWORD_FIELD = "password";
+	protected static final String CONFIRMATION_FIELD = "confirmation";
+	protected static final String SESSION_FIELD = "session";
+
+	protected boolean result;
 	protected Map<String, String> errors = new HashMap<String, String>();
 
 	protected String getFieldValue(HttpServletRequest req, String fieldname) {
@@ -22,19 +24,21 @@ public abstract class Logic {
 			return value.trim();
 		}
 	}
-	
-	protected void setError(String field, String message) {
-		errors.put(field, message);
+
+	public void setResult() {
+		if (errors.isEmpty()) {
+			result = true;
+		} else {
+			result = false;
+		}
 	}
-	
-	public JSONObject getJSONResultErrors() {
-		JSONObject json = new JSONObject();
-		json.put("result", result);
-		
-		JSONObject jsonerrors = new JSONObject(errors);
-		json.put("errors", jsonerrors);
-	
-		return json;
+
+	public boolean getResult() {
+		return result;
+	}
+
+	public Map<String, String> getErrors() {
+		return errors;
 	}
 
 }

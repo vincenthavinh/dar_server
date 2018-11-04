@@ -16,7 +16,6 @@ public class Test extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html");
 	    resp.setCharacterEncoding( "UTF-8" );
-	    
 	    PrintWriter out = resp.getWriter();
 	    
 	    Enumeration<String> parameterNames = req.getParameterNames();

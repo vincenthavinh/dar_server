@@ -5,18 +5,31 @@
 </head>
 <body>
 	<h2>Servlet /test</h2>
-	<input type="text" id="text_id" placeholder="texte à envoyer" />
-	<input type="button" value="GO" onclick="test('text_id', 'test_resp_id')" />
+	<input type="text" id="test_text_id" placeholder="texte à envoyer" />
+	<input type="button" value="GO" onclick="test()" />
 	<p id="test_resp_id"></p>
 
 	<h2>Servlet /signup</h2>
-	<input type="text" id="username_id" placeholder="username" />
-	<input type="password" id="password_id" placeholder="password" />
-	<input type="password" id="confirmation_id" placeholder="confirm password" />
-	<input type="button" value="Sign Up" 
-		onclick="signup('username_id', 'password_id', 'confirmation_id', 'signup_resp_id')" />
+	<input type="text" id="signup_username_id" placeholder="username" />
+	<input type="password" id="signup_password_id" placeholder="password" />
+	<input type="password" id="signup_confirmation_id" placeholder="confirm password" />
+	<input type="button" value="Sign Up" onclick="signup()" />
 	<p id="signup_resp_id"></p>
-
+	
+	<h2>Servlet /login</h2>
+	<input type="text" id="login_username_id" placeholder="username" />
+	<input type="password" id="login_password_id" placeholder="password" />
+	<input type="button" value="Log In" onclick="login()" />
+	<p id="login_resp_id"></p>
+	
+	<h2>Servlet /showsession</h2>
+	<input type="button" value="GO" onclick="showsession()" />
+	<p id="showsession_resp_id"></p>
+	
+	<h2>Servlet /logout</h2>
+	<input type="button" value="Log Out" onclick="logout()" />
+	<p id="logout_resp_id"></p>
+	
 
 	<script src="overview.js"></script> 
 </body>

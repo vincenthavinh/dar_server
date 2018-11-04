@@ -7,10 +7,6 @@ import dao.DB;
 import dao.objects.DAOUser;
 
 public class SignupLogic extends Logic {
-
-	private static final String USERNAME_FIELD = "username";
-	private static final String PASSWORD_FIELD = "password";
-	private static final String CONFIRMATION_FIELD = "confirmation";
 	
 	private DAOUser daouser;
 	
@@ -30,7 +26,7 @@ public class SignupLogic extends Logic {
 		user.setUsername(username);
 
 		/* password */
-		checkPassword(password, confirmation);
+		checkPasswordConfirmation(password, confirmation);
 		user.setPassword(password);
 
 		/*ajout de l'utilisateur a la bdd*/
@@ -38,42 +34,38 @@ public class SignupLogic extends Logic {
 			try {
 				daouser.create(user);
 			} catch (Exception e) {
-				setError("mongodb", "erreur survenue lors de l'insertion dans la bdd");
+				errors.put("mongodb", "erreur survenue lors de l'insertion dans la bdd");
 			}
 		}
 		
-		/*confirmation de l'inscription*/
-		if (errors.isEmpty()) {
-			result = "Inscription effectuée.";
-		} else {
-			result = "Échec de l'inscription.";
-		}
+		/*confirmation de l'inscription (champ Result selon Errors)*/
+		setResult();
 
 		return user;
 	}
 
 	private void checkUsername(String username) {
-		if (username != null && username.length() < 3) {
-			setError(USERNAME_FIELD, "Le nom d'utilisateur doit contenir au moins 3 caractères.");
+		if (username == null || username.length() < 3) {
+			errors.put(USERNAME_FIELD, "Le nom d'utilisateur doit contenir au moins 3 caractères.");
 			return;
 		}
 		if (daouser.read(username) != null) {
-			setError(USERNAME_FIELD, "Le nom d'utilisateur est déjà utilisé.");
+			errors.put(USERNAME_FIELD, "Le nom d'utilisateur est déjà utilisé.");
 			return;
 		}
 	}
 
-	private void checkPassword(String password, String confirmation) {
+	private void checkPasswordConfirmation(String password, String confirmation) {
 		if (password == null || confirmation == null) {
-			setError(PASSWORD_FIELD, "Merci de saisir et confirmer votre mot de passe.");
+			errors.put(PASSWORD_FIELD, "Merci de saisir et confirmer votre mot de passe.");
 			return;
 		}
 		if (!password.equals(confirmation)) {
-			setError(PASSWORD_FIELD, "Les mots de passe entrés sont différents, merci de les saisir à nouveau.");
+			errors.put(PASSWORD_FIELD, "Les mots de passe entrés sont différents, merci de les saisir à nouveau.");
 			return;
 		}
 		if (password.length() < 6) {
-			setError(PASSWORD_FIELD, "Les mots de passe doivent contenir au moins 6 caractères.");
+			errors.put(PASSWORD_FIELD, "Les mots de passe doivent contenir au moins 6 caractères.");
 			return;
 		}
 	}

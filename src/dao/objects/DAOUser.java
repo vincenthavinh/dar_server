@@ -15,12 +15,14 @@ public class DAOUser {
 		coll = md.getCollection("Users", User.class);
 	}
 	
+	/**---------------------------------CREATE---------------------------------**/
 	public User create(User u) {
-		this.coll.insertOne(u);;
+		this.coll.insertOne(u);
 		
 		return u;
 	}
 	
+	/**---------------------------------READ---------------------------------**/
 	public User read(String username) {
 		Bson query = com.mongodb.client.model.Filters.eq("username", username);
 		User user = this.coll.find(query).first();
@@ -31,6 +33,9 @@ public class DAOUser {
 			return user;
 	}
 
+	/**---------------------------------UPDATE---------------------------------**/
+	
+	/**---------------------------------DELETE---------------------------------**/
 	public User delete(String username, String password) {
 		Bson query = com.mongodb.client.model.Filters.eq("username", username);
 		User deleted = this.coll.findOneAndDelete(query);

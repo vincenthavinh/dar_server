@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import tools.Send;
+
 public class Test extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -22,6 +24,13 @@ public class Test extends HttpServlet {
 	    while (parameterNames.hasMoreElements()) {
 	        String param = (String) parameterNames.nextElement();
 	        out.println(param + " = [" + req.getParameter(param) + "]<br/>");
+	        try {
+	        	out.println("path : "+new java.io.File( ".").getCanonicalPath());
+				//out.println("apikey: " + Send.getApiKey());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 	}
 }

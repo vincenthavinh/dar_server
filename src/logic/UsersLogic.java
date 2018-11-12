@@ -6,15 +6,16 @@ import beans.User;
 import dao.DB;
 import dao.objects.DAOUser;
 
-public class SignupLogic extends Logic {
+public class UsersLogic extends Logic {
 	
 	private DAOUser daouser;
 	
-	public SignupLogic() {
+	public UsersLogic(HttpServletRequest req) {
+		super(req);
 		daouser = new DAOUser(DB.get());
 	}
 
-	public User newUser(HttpServletRequest req) {
+	public User newUser() {
 		String username = getFieldValue(req, USERNAME_FIELD);
 		String password = getFieldValue(req, PASSWORD_FIELD);
 		String confirmation = getFieldValue(req, CONFIRMATION_FIELD);
@@ -37,9 +38,6 @@ public class SignupLogic extends Logic {
 				errors.put("mongodb", "erreur survenue lors de l'insertion dans la bdd");
 			}
 		}
-		
-		/*confirmation de l'inscription (champ Result selon Errors)*/
-		setResult();
 
 		return user;
 	}

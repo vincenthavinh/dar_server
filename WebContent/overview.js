@@ -1,11 +1,17 @@
-var test_url = "test";
-var signup_url = "signup";
-var login_url = "login";
-var showsession_url = "showsession";
-var logout_url = "logout";
+function display(id) {
+	var divs = document.getElementsByTagName("div");
+	for(var i=0; i<divs.length; i++){
+		if(divs[i].id==id){
+			divs[i].hidden = false;
+		}else{
+			divs[i].hidden = true;
+		}
+	}
+}
 
-function logout() {
-	var r = "logout_resp_id";
+
+function sessions_delete() {
+	var r = "sessions_delete_resp_id";
 	var xhttp = new XMLHttpRequest();
 	
 	/*sur reception de la reponse*/
@@ -14,12 +20,12 @@ function logout() {
 			document.getElementById(r).innerHTML = this.responseText; }};
 
 	/*envoi asynchrone au servlet*/
-	xhttp.open("GET", logout_url , true);
+	xhttp.open("DELETE", "sessions" , true);
 	xhttp.send();
 }
 
-function showsession() {
-	var r = "showsession_resp_id";
+function sessions_get() {
+	var r = "sessions_get_resp_id";
 	var xhttp = new XMLHttpRequest();
 	
 	/*sur reception de la reponse*/
@@ -28,7 +34,7 @@ function showsession() {
 			document.getElementById(r).innerHTML = this.responseText; }};
 
 	/*envoi asynchrone au servlet*/
-	xhttp.open("GET", showsession_url , true);
+	xhttp.open("GET", "sessions" , true);
 	xhttp.send();
 }
 
@@ -46,15 +52,15 @@ function test() {
 	var params = "?text=" + document.getElementById(t).value;
 
 	/*envoi asynchrone au servlet*/
-	xhttp.open("GET", test_url + params , true);
+	xhttp.open("GET", "test" + params , true);
 	xhttp.send();
 }
 
-function signup() {
-	var u = "signup_username_id";
-	var p = "signup_password_id";
-	var c = "signup_confirmation_id";
-	var r = "signup_resp_id";
+function users_post() {
+	var u = "users_post_username_id";
+	var p = "users_post_password_id";
+	var c = "users_post_confirmation_id";
+	var r = "users_post_resp_id";
 	var xhttp = new XMLHttpRequest();
 
 	/*sur reception de la reponse*/
@@ -69,15 +75,15 @@ function signup() {
 		"&confirmation=" + document.getElementById(c).value;
 			
 	/*envoi asynchrone au servlet*/
-	xhttp.open("POST", signup_url , true);
+	xhttp.open("POST", "users" , true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(params);
 }
 
-function login(){
-	var u = "login_username_id";
-	var p = "login_password_id";
-	var r = "login_resp_id";
+function sessions_post(){
+	var u = "sessions_post_username_id";
+	var p = "sessions_post_password_id";
+	var r = "sessions_post_resp_id";
 	var xhttp = new XMLHttpRequest();
 	
 	/*sur reception de la reponse*/
@@ -91,7 +97,7 @@ function login(){
 		"&password=" + document.getElementById(p).value;
 	
 	/*envoi asynchrone au servlet*/
-	xhttp.open("POST", login_url , true);
+	xhttp.open("POST", "sessions" , true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(params);
 }

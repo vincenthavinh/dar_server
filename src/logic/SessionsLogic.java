@@ -7,16 +7,17 @@ import beans.User;
 import dao.DB;
 import dao.objects.DAOUser;
 
-public class LoginLogic extends Logic {
+public class SessionsLogic extends Logic {
 	
 	private DAOUser daouser;
 	private static int maxInactiveTime = 30;
 	
-	public LoginLogic() {
+	public SessionsLogic(HttpServletRequest req) {
+		super(req);
 		daouser = new DAOUser(DB.get());
 	}
 	
-	public void connectUser(HttpServletRequest req) {
+	public void connectUser() {
 		String username = getFieldValue(req, USERNAME_FIELD);
 		String password = getFieldValue(req, PASSWORD_FIELD);
 		
@@ -44,8 +45,18 @@ public class LoginLogic extends Logic {
 			session.setAttribute(USERNAME_FIELD, username);
 			session.setMaxInactiveInterval(maxInactiveTime);
 		}
+	}
+
+	public void invalidateSession() {
+		HttpSession session = req.getSession(false);
 		
-		/*confirmation de la connexion*/
-		setResult();
+		/*check session existante*/
+		if(session == null) {
+			errors.put(SESSION_FIELD, "Aucune session en cours.");
+		}
+		
+		if(errors.isEmpty()) {
+			session.invalidate();
+		}
 	}
 }

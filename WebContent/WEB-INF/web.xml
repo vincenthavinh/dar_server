@@ -10,25 +10,19 @@
 	</servlet>
 	
 	<servlet>
-		<servlet-name>Signup</servlet-name>
-		<servlet-class>servlets.Signup</servlet-class>
+		<servlet-name>Users</servlet-name>
+		<servlet-class>servlets.Users</servlet-class>
 	</servlet>
 	
 	<servlet>
-		<servlet-name>Login</servlet-name>
-		<servlet-class>servlets.Login</servlet-class>
+		<servlet-name>Sessions</servlet-name>
+		<servlet-class>servlets.Sessions</servlet-class>
 	</servlet>
 	
 	<servlet>
-		<servlet-name>ShowSession</servlet-name>
-		<servlet-class>servlets.ShowSession</servlet-class>
+		<servlet-name>Products</servlet-name>
+		<servlet-class>servlets.Products</servlet-class>
 	</servlet>
-	
-	<servlet>
-		<servlet-name>Logout</servlet-name>
-		<servlet-class>servlets.Logout</servlet-class>
-	</servlet>
-	
 
 	<servlet-mapping>
 		<servlet-name>Test</servlet-name>
@@ -36,24 +30,20 @@
 	</servlet-mapping>
 	
 	<servlet-mapping>
-		<servlet-name>Signup</servlet-name>
-		<url-pattern>/signup</url-pattern>
+		<servlet-name>Users</servlet-name>
+		<url-pattern>/users</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
-		<servlet-name>Login</servlet-name>
-		<url-pattern>/login</url-pattern>
+		<servlet-name>Sessions</servlet-name>
+		<url-pattern>/sessions</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
-		<servlet-name>ShowSession</servlet-name>
-		<url-pattern>/showsession</url-pattern>
+		<servlet-name>Products</servlet-name>
+		<url-pattern>/products</url-pattern>
 	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>Logout</servlet-name>
-		<url-pattern>/logout</url-pattern>
-	</servlet-mapping>
+
 
 
 	<display-name>server</display-name>

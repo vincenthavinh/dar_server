@@ -10,20 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-public class Send {
-	
-	private static String apiKey;
-	
-	public static String getApiKey() throws Exception {
-		if(apiKey == null) {
-			File catalinaBase = new File( System.getProperty( "catalina.base" ) ).getAbsoluteFile();
-			File apiKeyFile = new File( catalinaBase, "webapps/dar_server/WebContent/WEB-INF/APIkey" );
-			BufferedReader br = new BufferedReader(new FileReader(apiKeyFile));
-		    apiKey = br.readLine();
-		    br.close();
-		}
-		return apiKey;
-	}
+public class ServletUtils {
 	
 	public static void answerToClient(HttpServletResponse resp, JSONObject json) {
 		resp.setContentType("application/json");
@@ -38,8 +25,5 @@ public class Send {
         out.print(json);
         out.flush();   
 	}
-	
-	public static void apiSearch() {
-		
-	}
+
 }

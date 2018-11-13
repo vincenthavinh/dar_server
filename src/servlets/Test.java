@@ -1,14 +1,24 @@
 package servlets;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import tools.Send;
+import tools.CDiscountUtils;
+import tools.ServletUtils;
 
 public class Test extends HttpServlet {
 
@@ -24,13 +34,7 @@ public class Test extends HttpServlet {
 	    while (parameterNames.hasMoreElements()) {
 	        String param = (String) parameterNames.nextElement();
 	        out.println(param + " = [" + req.getParameter(param) + "]<br/>");
-	        try {
-	        	out.println("path : "+new java.io.File( ".").getCanonicalPath());
-				//out.println("apikey: " + Send.getApiKey());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	        out.println("apikey : " + CDiscountUtils.getApiKey());
 	    }
 	}
 }

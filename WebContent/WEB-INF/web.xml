@@ -4,6 +4,13 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 	id="WebApp_ID" version="4.0">
 
+	<listener>
+		<listener-class>
+			servlets.StartRoutine
+		</listener-class>
+	</listener>
+	
+	
 	<servlet>
 		<servlet-name>Test</servlet-name>
 		<servlet-class>servlets.Test</servlet-class>

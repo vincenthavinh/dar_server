@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import logic.SessionsLogic;
-import tools.Send;
+import tools.ServletUtils;
 
 public class Sessions extends HttpServlet {
 
@@ -24,7 +24,7 @@ public class Sessions extends HttpServlet {
 		SessionsLogic sessionslogic = new SessionsLogic(req);
 		sessionslogic.connectUser();
         
-        Send.answerToClient(resp, sessionslogic.toJSON());
+        ServletUtils.answerToClient(resp, sessionslogic.toJSON());
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class Sessions extends HttpServlet {
 		SessionsLogic sessionslogic = new SessionsLogic(req);
 		sessionslogic.invalidateSession();;
         
-        Send.answerToClient(resp, sessionslogic.toJSON());
+        ServletUtils.answerToClient(resp, sessionslogic.toJSON());
 	}
 
 	@Override

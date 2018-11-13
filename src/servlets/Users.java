@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.UsersLogic;
-import tools.Send;
+import tools.ServletUtils;
 
 public class Users extends HttpServlet {
 
@@ -20,7 +20,7 @@ public class Users extends HttpServlet {
 		UsersLogic userslogic = new UsersLogic(req);
 		userslogic.newUser();
 
-		Send.answerToClient(resp, userslogic.toJSON());
+		ServletUtils.answerToClient(resp, userslogic.toJSON());
 	}
 
 	

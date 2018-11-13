@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
@@ -48,6 +49,13 @@ public abstract class Logic {
 		}
 		
 		return json;
+	}
+	
+	protected void isSessionValid() {
+		HttpSession session = req.getSession(false);
+		if(session == null) {
+			errors.put(SESSION_FIELD, "Aucune session en cours.");
+		}
 	}
 
 }

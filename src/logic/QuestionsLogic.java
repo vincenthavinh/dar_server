@@ -5,7 +5,7 @@ import javax.servlet.http.HttpSession;
 
 public class QuestionsLogic extends Logic {
 	
-	private static String[] keywords = {"tablette"};
+	private static String[] keywords = {"tablette", "smartphone", "ordinateur", "cuisine", "table", "siege"};
 
 	public QuestionsLogic(HttpServletRequest req) {
 		super(req);
@@ -14,11 +14,8 @@ public class QuestionsLogic extends Logic {
 	
 	public void newRandomQuestion() {
 		
-		/*check session existante*/
-		HttpSession session = req.getSession(false);
-		if(session == null) {
-			errors.put(SESSION_FIELD, "Aucune session en cours.");
-		}
+		/*check session valide*/
+		isSessionValid();
 		
 		/*nouveau random product*/
 		

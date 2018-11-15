@@ -10,7 +10,7 @@ import dao.objects.DAOUser;
 public class SessionsLogic extends Logic {
 	
 	private DAOUser daouser;
-	private static int maxInactiveTime = 30;
+	private static int maxInactiveTime = 300;
 	
 	public SessionsLogic(HttpServletRequest req) {
 		super(req);

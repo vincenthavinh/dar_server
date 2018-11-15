@@ -14,6 +14,7 @@ public abstract class Logic {
 	protected static final String PASSWORD_FIELD = "password";
 	protected static final String CONFIRMATION_FIELD = "confirmation";
 	protected static final String SESSION_FIELD = "session";
+	protected static final String QUESTION_ID_FIELD = "qid";
 
 	protected HttpServletRequest req;
 	protected Map<String, String> errors = new HashMap<String, String>();
@@ -51,11 +52,12 @@ public abstract class Logic {
 		return json;
 	}
 	
-	protected void isSessionValid() {
+	protected HttpSession getValidSession() {
 		HttpSession session = req.getSession(false);
 		if(session == null) {
 			errors.put(SESSION_FIELD, "Aucune session en cours.");
+			return null;
 		}
+		return session;
 	}
-
 }

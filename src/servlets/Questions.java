@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import logic.QuestionsLogic;
+import tools.ServletUtils;
 
 public class Questions extends HttpServlet {
 
@@ -16,7 +17,9 @@ public class Questions extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		QuestionsLogic questionlogic = new QuestionsLogic(req);
-		questionlogic.newRandomQuestion();
+		QuestionsLogic questionslogic = new QuestionsLogic(req);
+	    questionslogic.newRandomQuestion(2);
+	    
+	    ServletUtils.answerToClient(resp, questionslogic.toJSON());
 	}
 }

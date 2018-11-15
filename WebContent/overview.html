@@ -6,7 +6,8 @@
 <body>
 	<button onclick="display('test_id')">Servlet /test</button>
 	<button onclick="display('users_id')">Servlet /users</button>
-	<button onclick="display('sessions_id')">Servlet /sessions</button>	
+	<button onclick="display('sessions_id')">Servlet /sessions</button>
+	<button onclick="display('questions_id')">Servlet /questions</button>	
 
 	<div id="test_id" hidden="hidden">
 		<h3>GET</h3>
@@ -38,6 +39,12 @@
 		<h3>DELETE</h3>
 		<input type="button" value="Log Out" onclick="sessions_delete()" />
 		<p id="sessions_delete_resp_id"></p>
+	</div>
+	
+	<div id="questions_id" hidden="hidden">
+		<h3>GET</h3>
+		<input type="button" value="Random" onclick="questions_get()" />
+		<p id="questions_get_resp_id"></p>
 	</div>
 
 	<script src="overview.js"></script> 

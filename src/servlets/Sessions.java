@@ -47,7 +47,7 @@ public class Sessions extends HttpServlet {
         HttpSession session = req.getSession(false);
         
         if(session != null) {
-        	Enumeration e = (Enumeration) (session.getAttributeNames());
+        	Enumeration<String> e = (Enumeration<String>) (session.getAttributeNames());
 			while ( e.hasMoreElements()) {
 			    Object tring;
 			    if((tring = e.nextElement())!=null) {

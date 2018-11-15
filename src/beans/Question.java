@@ -1,28 +1,45 @@
 package beans;
 
-public class Question {
+import java.util.ArrayList;
+import java.util.List;
 
-	private String p1id;
-	private String p2id;
+public class Question {
+	
+	private int qid;
+	private String author;
+	private List<String> productsIds;
 	private String price;
 	
-	public String getP1id() {
-		return p1id;
+	public Question() {
+		productsIds = new ArrayList<String>();
 	}
-	public void setP1id(String p1id) {
-		this.p1id = p1id;
-	}
-	public String getP2id() {
-		return p2id;
-	}
-	public void setP2id(String p2id) {
-		this.p2id = p2id;
-	}
+	
 	public String getPrice() {
 		return price;
 	}
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	
+	public List<String> getProductsIds() {
+		return productsIds;
+	}
+	public void setProductsIds(List<String> productsIds) {
+		this.productsIds = productsIds;
+	}
+
+	public int getQid() {
+		return qid;
+	}
+
+	public void setQid(int qid) {
+		this.qid = qid;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 }

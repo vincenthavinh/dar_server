@@ -4,9 +4,14 @@ import org.bson.conversions.Bson;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.IndexOptions;
+import com.mongodb.client.model.Indexes;
+
+import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Sorts.*;
+import static com.mongodb.client.model.Projections.*;
 
 import beans.Product;
-import beans.User;
 
 public class DAOProduct {
 
@@ -14,6 +19,7 @@ public class DAOProduct {
 	
 	public DAOProduct(MongoDatabase md) {
 		coll = md.getCollection("Products", Product.class);
+		coll.createIndex(Indexes.ascending("pid"), new IndexOptions().unique(true));
 	}
 	
 	/**---------------------------------CREATE---------------------------------**/
@@ -25,8 +31,7 @@ public class DAOProduct {
 	
 	/**---------------------------------READ---------------------------------**/
 	public Product read(String pid) {
-		Bson query = com.mongodb.client.model.Filters.eq("pid", pid);
-		Product product = this.coll.find(query).first();
+		Product product = this.coll.find(eq("pid", pid)).first();
 		
 		if(product == null)
 			return null;

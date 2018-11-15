@@ -1,10 +1,13 @@
 package beans;
 
+import java.util.List;
+
 public class Product {
 
 	private String pid;
+	private String name;
 	private String productUrl;
-	private String imageUrl;
+	private List<String> imagesUrls;
 	private String salePrice;
 	
 	public String getPid() {
@@ -15,6 +18,14 @@ public class Product {
 		this.pid = pid;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getProductUrl() {
 		return productUrl;
 	}
@@ -23,12 +34,12 @@ public class Product {
 		this.productUrl = productUrl;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public List<String> getImagesUrls() {
+		return imagesUrls;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImagesUrls(List<String> imagesUrls) {
+		this.imagesUrls = imagesUrls;
 	}
 
 	public String getSalePrice() {

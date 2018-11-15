@@ -12,17 +12,9 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 public class DB {
 
-	private static DB instance;
-	private static MongoClient mc;
-
-	private DB() {
-		mc = new MongoClient();
-	}
+	private static MongoClient mc = new MongoClient();
 
 	public static MongoDatabase get() {
-		if (instance == null)
-			instance = new DB();
-
 		// create codec registry for POJOs
 		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
 				fromProviders(PojoCodecProvider.builder().automatic(true).build()));

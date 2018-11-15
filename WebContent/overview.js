@@ -10,6 +10,20 @@ function display(id) {
 }
 
 
+function questions_get() {
+	var r = "questions_get_resp_id";
+	var xhttp = new XMLHttpRequest();
+	
+	/*sur reception de la reponse*/
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4) {
+			document.getElementById(r).innerHTML = this.responseText; }};
+
+	/*envoi asynchrone au servlet*/
+	xhttp.open("GET", "questions" , true);
+	xhttp.send();
+}
+
 function sessions_delete() {
 	var r = "sessions_delete_resp_id";
 	var xhttp = new XMLHttpRequest();

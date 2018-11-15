@@ -31,6 +31,12 @@
 		<servlet-class>servlets.Products</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>Questions</servlet-name>
+		<servlet-class>servlets.Questions</servlet-class>
+	</servlet>
+
+
 	<servlet-mapping>
 		<servlet-name>Test</servlet-name>
 		<url-pattern>/test</url-pattern>
@@ -51,6 +57,10 @@
 		<url-pattern>/products</url-pattern>
 	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>Questions</servlet-name>
+		<url-pattern>/questions</url-pattern>
+	</servlet-mapping>
 
 
 	<display-name>server</display-name>

@@ -3,6 +3,12 @@ package dao.objects;
 import org.bson.conversions.Bson;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.IndexOptions;
+import com.mongodb.client.model.Indexes;
+
+import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Sorts.*;
+import static com.mongodb.client.model.Projections.*;
 
 import beans.User;
 
@@ -13,6 +19,7 @@ public class DAOUser {
 	
 	public DAOUser(MongoDatabase md) {
 		coll = md.getCollection("Users", User.class);
+		coll.createIndex(Indexes.ascending("username"), new IndexOptions().unique(true));
 	}
 	
 	/**---------------------------------CREATE---------------------------------**/
@@ -24,9 +31,8 @@ public class DAOUser {
 	
 	/**---------------------------------READ---------------------------------**/
 	public User read(String username) {
-		Bson query = com.mongodb.client.model.Filters.eq("username", username);
-		User user = this.coll.find(query).first();
-		
+		User user = this.coll.find(eq("username", username)).first();
+				
 		if(user == null)
 			return null;
 		else
@@ -37,8 +43,7 @@ public class DAOUser {
 	
 	/**---------------------------------DELETE---------------------------------**/
 	public User delete(String username, String password) {
-		Bson query = com.mongodb.client.model.Filters.eq("username", username);
-		User deleted = this.coll.findOneAndDelete(query);
+		User deleted = this.coll.findOneAndDelete(eq("username", username));
 		return deleted;
 	}
 	

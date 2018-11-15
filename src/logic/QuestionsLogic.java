@@ -32,6 +32,10 @@ public class QuestionsLogic extends Logic {
 		daoproduct = new DAOProduct(DB.get());
 		daoquestion = new DAOQuestion(DB.get());
 	}
+
+	public List<Product> getProducts() {
+		return products;
+	}	
 	
 	public void newRandomQuestion(int nbProducts) {
 		
@@ -69,9 +73,9 @@ public class QuestionsLogic extends Logic {
 		daoquestion.create(question);
 		
 		/*sauvegarde de l'id de la question dans la session, pour pouvoir y repondre*/
-		getValidSession().setAttribute(QUESTION_ID_FIELD, question.getQid());
+		getValidSession().setAttribute(QUESTION_FIELD, question.getQid());
 	}
-	
+
 	private List<Product> getRandomProducts(int nbProducts) {
 		List<String> productidlist = new ArrayList<String>();
 		
@@ -156,6 +160,7 @@ public class QuestionsLogic extends Logic {
 		
 		JSONObject json = new JSONObject();
 		json.put("name", p.getName());
+		json.put("pid", p.getPid());
 		json.put("imagesUrls", imgs);
 		
 		//System.out.println(((JSONArray)json.get(("imagesUrls"))).get(0));

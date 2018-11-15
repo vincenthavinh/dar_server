@@ -24,7 +24,7 @@ public class Sessions extends HttpServlet {
 		SessionsLogic sessionslogic = new SessionsLogic(req);
 		sessionslogic.connectUser();
         
-        ServletUtils.answerToClient(resp, sessionslogic.toJSON());
+        ServletUtils.sendToClient(resp, sessionslogic.toJSON());
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class Sessions extends HttpServlet {
 		SessionsLogic sessionslogic = new SessionsLogic(req);
 		sessionslogic.invalidateSession();;
         
-        ServletUtils.answerToClient(resp, sessionslogic.toJSON());
+        ServletUtils.sendToClient(resp, sessionslogic.toJSON());
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 
 public class ServletUtils {
 	
-	public static void answerToClient(HttpServletResponse resp, JSONObject json) {
+	public static void sendToClient(HttpServletResponse resp, JSONObject json) {
 		resp.setContentType("text/plain");
         resp.setCharacterEncoding("UTF-8");
         

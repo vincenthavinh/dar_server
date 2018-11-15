@@ -35,6 +35,11 @@
 		<servlet-name>Questions</servlet-name>
 		<servlet-class>servlets.Questions</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>Answers</servlet-name>
+		<servlet-class>servlets.Answers</servlet-class>
+	</servlet>
 
 
 	<servlet-mapping>
@@ -60,6 +65,11 @@
 	<servlet-mapping>
 		<servlet-name>Questions</servlet-name>
 		<url-pattern>/questions</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Answers</servlet-name>
+		<url-pattern>/answers</url-pattern>
 	</servlet-mapping>
 
 

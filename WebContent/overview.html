@@ -7,7 +7,8 @@
 	<button onclick="display('test_id')">Servlet /test</button>
 	<button onclick="display('users_id')">Servlet /users</button>
 	<button onclick="display('sessions_id')">Servlet /sessions</button>
-	<button onclick="display('questions_id')">Servlet /questions</button>	
+	<button onclick="display('questions_id')">Servlet /questions</button>
+	<button onclick="display('answers_id')">Servlet /answers</button>	
 
 	<div id="test_id" hidden="hidden">
 		<h3>GET</h3>
@@ -45,6 +46,13 @@
 		<h3>GET</h3>
 		<input type="button" value="Random" onclick="questions_get()" />
 		<p id="questions_get_resp_id"></p>
+	</div>
+	
+	<div id="answers_id" hidden="hidden">
+		<h3>POST</h3>
+		<input id="answers_post_answer_id" type="text" placeholder="ProductId" />
+		<input type="button" value="Answer" onclick="answers_post()" />
+		<p id="answers_post_resp_id"></p>
 	</div>
 
 	<script src="overview.js"></script> 

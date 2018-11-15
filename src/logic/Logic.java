@@ -14,7 +14,9 @@ public abstract class Logic {
 	protected static final String PASSWORD_FIELD = "password";
 	protected static final String CONFIRMATION_FIELD = "confirmation";
 	protected static final String SESSION_FIELD = "session";
-	protected static final String QUESTION_ID_FIELD = "qid";
+	protected static final String QUESTION_FIELD = "question";
+	protected static final String ANSWER_FIELD = "answer";
+	protected static final String DATABASE_FIELD = "database";
 
 	protected HttpServletRequest req;
 	protected Map<String, String> errors = new HashMap<String, String>();

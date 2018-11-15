@@ -9,6 +9,24 @@ function display(id) {
 	}
 }
 
+function answers_post() {
+	var a = "answers_post_answer_id";
+	var r = "answers_post_resp_id";
+	var xhttp = new XMLHttpRequest();
+	
+	/*sur reception de la reponse*/
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4) {
+			document.getElementById(r).innerHTML = this.responseText; }};
+
+	/*texte a envoyer*/
+	var params = "answer=" + document.getElementById(a).value;
+	
+	/*envoi asynchrone au servlet*/
+	xhttp.open("POST", "answers" , true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send(params);
+}
 
 function questions_get() {
 	var r = "questions_get_resp_id";

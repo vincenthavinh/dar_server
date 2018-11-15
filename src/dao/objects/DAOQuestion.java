@@ -1,5 +1,6 @@
 package dao.objects;
 
+import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.json.simple.JSONObject;
 
@@ -32,7 +33,7 @@ public class DAOQuestion {
 	}
 
 	/** ---------------------------------READ--------------------------------- **/
-	public Question read(String qid) {
+	public Question read(int qid) {
 		Question question = this.coll.find(eq("qid", qid)).first();
 
 		if (question == null)
@@ -43,7 +44,7 @@ public class DAOQuestion {
 
 	public int readHighhestQid() {
 		
-		BasicDBObject bson = new BasicDBObject();
+		Document bson = new Document();
 		bson.put("qid", -1);
 		
 		int highestQid;

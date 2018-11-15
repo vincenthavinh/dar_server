@@ -20,6 +20,6 @@ public class Questions extends HttpServlet {
 		QuestionsLogic questionslogic = new QuestionsLogic(req);
 	    questionslogic.newRandomQuestion(2);
 	    
-	    ServletUtils.answerToClient(resp, questionslogic.toJSON());
+	    ServletUtils.sendToClient(resp, questionslogic.toJSON());
 	}
 }

@@ -48,6 +48,7 @@ public class Sessions extends HttpServlet {
 
 			ServletUtils.sendToClient(resp, sessionslogic.toJSON());
 
+			
 		} catch (CustomException e) {
 			ServletUtils.sendToClient(resp, ServletUtils.jsonFailure(e.getMessage()));
 		} catch (Exception e) {
@@ -58,33 +59,20 @@ public class Sessions extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setContentType("text/html");
-		resp.setCharacterEncoding("UTF-8");
-		PrintWriter out = resp.getWriter();
+		try {
+			
+			HttpSession session = req.getSession(false);
+			
+			SessionsLogic sessionslogic = new SessionsLogic();
 
-		out.print("[cookie]<ul>");
+			ServletUtils.sendToClient(resp, sessionslogic.toJSON(session));
 
-		HttpSession session = req.getSession(false);
-
-		if (session != null) {
-			Enumeration<String> e = (Enumeration<String>) (session.getAttributeNames());
-			while (e.hasMoreElements()) {
-				Object tring;
-				if ((tring = e.nextElement()) != null) {
-					out.println("<li>" + tring + " : " + session.getAttribute((String) tring));
-				}
-			}
-			out.println("</li><li>ID:" + session.getId());
-			Date createTime = new Date(session.getCreationTime());
-			out.println("</li><li>creation time:" + createTime.toString());
-			Date lastTime = new Date(session.getLastAccessedTime());
-			out.println("</li><li>last accessed time:" + lastTime.toString());
-			out.println("</li><li>max inactive interval:" + session.getMaxInactiveInterval());
-			out.println("</li><li>is new:" + session.isNew());
-			out.println("</li></ul>");
-		} else {
-			out.println("null");
+			
+//		} catch (CustomException e) {
+//			ServletUtils.sendToClient(resp, ServletUtils.jsonFailure(e.getMessage()));
+		} catch (Exception e) {
+			ServletUtils.sendToClient(resp, ServletUtils.jsonFailure(Field.EXCEPTION + ": " + e.getMessage()));
+			e.printStackTrace();
 		}
-		out.flush();
 	}
 }

@@ -20,12 +20,10 @@ public class SessionsLogic extends Logic {
 	private DAOUser daouser = new DAOUser(DB.get());
 	private static int maxInactiveTime = 300;
 	
-	public JSONObject toJSON(HttpSession session) {
-		JSONObject json = ServletUtils.jsonSucess();
-		
+	public void getInformations(HttpSession session, JSONObject result) {		
 		JSONObject sessionjson;
 		if (session == null) {
-			json.put("session", JSONObject.NULL);
+			result.put("session", JSONObject.NULL);
 		}else {
 			sessionjson = new JSONObject();
 			
@@ -46,10 +44,8 @@ public class SessionsLogic extends Logic {
 			sessionjson.put("isNew", session.isNew());
 			
 			/*ajout de la session au json*/
-			json.put("session", sessionjson);
+			result.put("session", sessionjson);
 		}
-		
-		return json;
 	}
 	
 	public void connectUser(String username, String password, HttpServletRequest req) throws CustomException {

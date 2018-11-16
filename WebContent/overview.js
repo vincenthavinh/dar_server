@@ -9,6 +9,22 @@ function display(id) {
 	}
 }
 
+function users_get() {
+	var u = "users_get_username_id";
+	var r = "users_get_resp_id";
+	var xhttp = new XMLHttpRequest();
+	
+	/*sur reception de la reponse*/
+	xhttp.onreadystatechange = createCallback(xhttp, r);
+	
+	/*texte a envoyer*/
+	var params = "?username=" + document.getElementById(u).value;
+
+	/*envoi asynchrone au servlet*/
+	xhttp.open("GET", "users" + params , true);
+	xhttp.send();
+}
+
 function answers_post() {
 	var a = "answers_post_answer_id";
 	var r = "answers_post_resp_id";
@@ -82,6 +98,9 @@ function users_post() {
 	var u = "users_post_username_id";
 	var p = "users_post_password_id";
 	var c = "users_post_confirmation_id";
+	var f = "users_post_firstname_id";
+	var n = "users_post_name_id";
+	var e = "users_post_email_id";
 	var r = "users_post_resp_id";
 	var xhttp = new XMLHttpRequest();
 
@@ -92,7 +111,10 @@ function users_post() {
 	var params = 
 		"username=" + document.getElementById(u).value +
 		"&password=" + document.getElementById(p).value +
-		"&confirmation=" + document.getElementById(c).value;
+		"&confirmation=" + document.getElementById(c).value +
+		"&firstname=" + document.getElementById(f).value +
+		"&name=" + document.getElementById(n).value +
+		"&email=" + document.getElementById(e).value;
 			
 	/*envoi asynchrone au servlet*/
 	xhttp.open("POST", "users" , true);

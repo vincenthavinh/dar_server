@@ -30,21 +30,14 @@ public class QuestionsLogic extends Logic {
 	private DAOProduct daoproduct = new DAOProduct(DB.get());
 	private DAOQuestion daoquestion = new DAOQuestion(DB.get());
 	
-	private Question question;
-	private List<Product> products;
 	
-	
-	public List<Product> getProducts() {
-		return products;
-	}	
-	
-	public void newRandomQuestion(int nbProducts, HttpSession session) throws Exception {
+	public void newRandomQuestion(int nbProducts, HttpSession session, JSONObject result) throws Exception {
 		
 		/*check session valide*/
 		checkSession(session);
 		
 		/*creation de produits aleatoires*/
-		this.products = getRandomProducts(nbProducts);
+		List<Product> products = getRandomProducts(nbProducts);
 		
 		/*stockage des produits dans la BDD*/
 		for(Product prod : products ) {
@@ -64,7 +57,7 @@ public class QuestionsLogic extends Logic {
 		}
 		
 		/*creation de la question avec prix aleatoire*/
-		this.question = new Question();
+		Question question = new Question();
 		
 		String username = (String) session.getAttribute(Field.USERNAME);
 		question.setAuthor(username);
@@ -79,6 +72,19 @@ public class QuestionsLogic extends Logic {
 		
 		/*sauvegarde de l'id de la question dans la session, pour pouvoir y repondre*/
 		session.setAttribute(Field.QUESTION, question.getQid());
+		
+		
+		/*JSON resultat*/
+		JSONArray prods = new JSONArray();
+		for(Product p : products) {
+			JSONObject jsonp = new JSONObject(p);
+			jsonp.remove("salePrice");
+			jsonp.remove("productUrl");
+			prods.put(jsonp);
+		}
+			
+		result.put("price", question.getPrice());
+		result.put("products", prods);
 	}
 
 	private List<Product> getRandomProducts(int nbProducts) throws Exception {
@@ -161,34 +167,5 @@ public class QuestionsLogic extends Logic {
 	private synchronized int getAndIncrementQid_counter() {
 		qid_counter++;
 		return qid_counter;
-	}
-	
-	public JSONObject toJSON() {
-		JSONObject json = super.toJSON();
-		
-		if(errors.isEmpty()) {
-			JSONArray prods = new JSONArray();
-			for(Product p : this.products) {
-				prods.put(this.toJSON(p));
-			}
-			
-			json.put("price", this.question.getPrice());
-			json.put("products", prods);
-		}
-		
-		return json;
-	}
-	
-	private JSONObject toJSON(Product p) {
-		JSONArray imgs = new JSONArray(p.getImagesUrls());
-		
-		JSONObject json = new JSONObject();
-		json.put("name", p.getName());
-		json.put("pid", p.getPid());
-		json.put("imagesUrls", imgs);
-		
-		//System.out.println(((JSONArray)json.get(("imagesUrls"))).get(0));
-		
-		return json;
 	}
 }

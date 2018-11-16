@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import logic.QuestionsLogic;
 import tools.CustomException;
 import tools.Field;
@@ -22,10 +24,12 @@ public class Questions extends HttpServlet {
 			
 			HttpSession session = req.getSession(false);
 
+			JSONObject result = ServletUtils.jsonSucess();
+			
 			QuestionsLogic questionslogic = new QuestionsLogic();
-			questionslogic.newRandomQuestion(2, session);
+			questionslogic.newRandomQuestion(2, session, result);
 
-			ServletUtils.sendToClient(resp, questionslogic.toJSON());
+			ServletUtils.sendToClient(resp, result);
 
 			
 		} catch (CustomException e) {

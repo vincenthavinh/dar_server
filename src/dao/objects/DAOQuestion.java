@@ -37,10 +37,6 @@ public class DAOQuestion {
 	}
 
 	public int readHighhestQid() {
-		
-		Document bson = new Document();
-		bson.put("qid", -1);
-		
 		int highestQid = this.coll.find()
 							.sort(descending("qid"))
 							.projection(fields(include("qid"), excludeId()))

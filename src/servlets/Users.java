@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import logic.UsersLogic;
 import tools.CustomException;
 import tools.Field;
@@ -25,11 +27,15 @@ public class Users extends HttpServlet {
 			HttpSession session = req.getSession(false);
 			String confirmation = ServletUtils.getFieldValue(req, Field.CONFIRMATION);
 			
+			String firstname = ServletUtils.getFieldValue(req, Field.FIRSTNAME);
+			String name = ServletUtils.getFieldValue(req, Field.NAME);
+			String email = ServletUtils.getFieldValue(req, Field.EMAIL);
+			
 			UsersLogic userslogic = new UsersLogic();
 			
-			userslogic.newUser(username, password, confirmation, session);
+			userslogic.newUser(username, password, confirmation, firstname, name, email, session);
 			
-			ServletUtils.sendToClient(resp, userslogic.toJSON());
+			ServletUtils.sendToClient(resp, ServletUtils.jsonSucess());
 			
 			
 		} catch (CustomException e) {
@@ -39,6 +45,35 @@ public class Users extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		try {
+			String username = ServletUtils.getFieldValue(req, Field.USERNAME);
+			HttpSession session = req.getSession(false);
+			
+			JSONObject result = ServletUtils.jsonSucess();
+			
+			UsersLogic userslogic = new UsersLogic();
+			
+
+			if(username != null) {
+				userslogic.getUser(username, session, result);
+			}else {
+				userslogic.getTop10Users(result);
+			}
+			
+			ServletUtils.sendToClient(resp, result);
+			
+		} catch (CustomException e) {
+			ServletUtils.sendToClient(resp, ServletUtils.jsonFailure(e.getMessage()));
+		} catch (Exception e) {
+			ServletUtils.sendToClient(resp, ServletUtils.jsonFailure(Field.EXCEPTION +": "+e.getMessage()));
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 	
 	

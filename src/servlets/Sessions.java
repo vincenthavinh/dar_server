@@ -1,15 +1,13 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
-import java.util.Enumeration;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import logic.SessionsLogic;
 import tools.CustomException;
@@ -29,7 +27,7 @@ public class Sessions extends HttpServlet {
 			SessionsLogic sessionslogic = new SessionsLogic();
 			sessionslogic.connectUser(username, password, req);
 
-			ServletUtils.sendToClient(resp, sessionslogic.toJSON());
+			ServletUtils.sendToClient(resp, ServletUtils.jsonSucess());
 
 		} catch (CustomException e) {
 			ServletUtils.sendToClient(resp, ServletUtils.jsonFailure(e.getMessage()));
@@ -46,7 +44,7 @@ public class Sessions extends HttpServlet {
 
 			sessionslogic.invalidateSession(req);
 
-			ServletUtils.sendToClient(resp, sessionslogic.toJSON());
+			ServletUtils.sendToClient(resp, ServletUtils.jsonSucess());
 
 			
 		} catch (CustomException e) {
@@ -63,9 +61,12 @@ public class Sessions extends HttpServlet {
 			
 			HttpSession session = req.getSession(false);
 			
+			JSONObject result = ServletUtils.jsonSucess();
+			
 			SessionsLogic sessionslogic = new SessionsLogic();
-
-			ServletUtils.sendToClient(resp, sessionslogic.toJSON(session));
+			sessionslogic.getInformations(session, result);
+			
+			ServletUtils.sendToClient(resp, result);
 
 			
 //		} catch (CustomException e) {

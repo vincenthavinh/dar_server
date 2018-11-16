@@ -23,9 +23,19 @@
 		<input id="users_post_username_id" type="text" placeholder="username" />
 		<input id="users_post_password_id" type="password" placeholder="password" />
 		<input id="users_post_confirmation_id" type="password" placeholder="confirm password" />
+		<br/>
+		<input id="users_post_firstname_id" type="text" placeholder="firstname" />
+		<input id="users_post_name_id" type="text" placeholder="name" />
+		<input id="users_post_email_id" type="text" placeholder="email" />
 		<input type="button" value="POST" onclick="users_post()" />
 		<br/><br/>
 		<textarea id="users_post_resp_id" autocomplete=off></textarea>
+		
+		<h3>GET</h3>
+		<input id="users_get_username_id" type="text" placeholder="username (null = Top10)" />
+		<input type="button" value="GO" onclick="users_get()" />
+		<br/><br/>
+		<textarea id="users_get_resp_id" autocomplete=off></textarea>
 	</div>
 	
 	<div id="sessions_id" hidden="hidden">

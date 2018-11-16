@@ -21,11 +21,7 @@ public class AnswersLogic extends Logic {
 	private DAOQuestion daoquestion = new DAOQuestion(DB.get());
 	private DAOUser daouser = new DAOUser(DB.get());
 	
-	private boolean rightAnswer;
-	private User user;
-	private Question question;
-
-	public void handleAnswer(String answer, HttpSession session) throws CustomException {
+	public void handleAnswer(String answer, HttpSession session, JSONObject result) throws CustomException {
 		
 		/*check session valide*/
 		checkSession(session);
@@ -37,7 +33,8 @@ public class AnswersLogic extends Logic {
 		}
 		
 		/*verification q&a match*/
-		rightAnswer = checkQandA(qid, answer);
+		Question question = daoquestion.read(qid);
+		Boolean rightAnswer = checkQandA(question, answer);
 		
 		/*si bonne reponse, augmentation du score*/
 		String username = (String) session.getAttribute(Field.USERNAME);
@@ -46,13 +43,22 @@ public class AnswersLogic extends Logic {
 			daouser.updateScoreAdd(username, 1);
 		}
 		
-		/*resultat*/
-		user = daouser.read(username);
+		
+		/*JSON resultat*/
+		User user = daouser.read(username);	
+		
+		result.put("rightAnswer", rightAnswer);
+		result.put("score", user.getScore());
+		
+		JSONArray prods = new JSONArray();
+		for(String pid : question.getProductsIds()) {
+			Product p = daoproduct.read(pid);
+			prods.put(new JSONObject(p));
+		}			
+		result.put("products", prods);
 	}
 
-	private boolean checkQandA(int qid, String answer) throws CustomException {
-		question = daoquestion.read(qid);
-		
+	private boolean checkQandA(Question question, String answer) throws CustomException {
 		if(answer == null || answer.equals("")) {
 			throw new CustomException(Field.ANSWER +": manquante dans la requête.");
 		}
@@ -68,38 +74,5 @@ public class AnswersLogic extends Logic {
 		}else {
 			return false;
 		}
-	}
-	
-	public JSONObject toJSON() {
-		JSONObject json = super.toJSON();
-		
-		if(errors.isEmpty()) {
-			json.put("rightAnswer", rightAnswer);
-			json.put("score", user.getScore());
-			
-			JSONArray prods = new JSONArray();
-			for(String pid : this.question.getProductsIds()) {
-				Product p = daoproduct.read(pid);
-				prods.put(this.toJSON(p));
-			}			
-			json.put("products", prods);
-		}
-		
-		return json;
-	}
-	
-	private JSONObject toJSON(Product p) {
-		JSONArray imgs = new JSONArray(p.getImagesUrls());
-		
-		JSONObject json = new JSONObject();
-		json.put("name", p.getName());
-		json.put("pid", p.getPid());
-		json.put("imagesUrls", imgs);
-		json.put("productUrl", p.getProductUrl());
-		json.put("salePrice", p.getSalePrice());
-		
-		//System.out.println(((JSONArray)json.get(("imagesUrls"))).get(0));
-		
-		return json;
 	}
 }

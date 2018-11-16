@@ -8,9 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class CDiscountUtils {
 
@@ -57,7 +56,7 @@ public class CDiscountUtils {
 
 				filters.put("Navigation", "");
 				filters.put("IncludeMarketPlace", false);
-				filters.put("Condition", null);
+				filters.put("Condition", JSONObject.NULL);
 			}
 		}
 
@@ -78,7 +77,7 @@ public class CDiscountUtils {
 			product.put("ProductIdList", list);
 			{
 				for (String id : productIdList)
-					list.add(id);
+					list.put(id);
 			}
 
 			JSONObject scope = new JSONObject();
@@ -116,7 +115,7 @@ public class CDiscountUtils {
 
 		// envoi de la requete
 		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write(request.toJSONString());
+		wr.write(request.toString());
 		wr.flush();
 
 		// reception de la reponse
@@ -132,8 +131,9 @@ public class CDiscountUtils {
 			br.close();
 
 			// conversion Stringbuilder -> JSONObject
-			JSONParser parser = new JSONParser();
-			response = (JSONObject) parser.parse(sb.toString());
+			//JSONParser parser = new JSONParser();
+			//response = (JSONObject) parser.parse(sb.toString());
+			response = new JSONObject(sb.toString());
 		} else {
 			Thread.sleep(1000);
 			return sendToCDiscount(request, urlString);

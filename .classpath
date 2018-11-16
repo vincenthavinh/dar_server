@@ -13,9 +13,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-text-1.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mongo-java-driver-3.8.2.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang3-3.8.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-20180813.jar"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

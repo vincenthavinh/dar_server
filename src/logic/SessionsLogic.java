@@ -6,7 +6,7 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import beans.User;
 import dao.DB;
@@ -25,7 +25,7 @@ public class SessionsLogic extends Logic {
 		
 		JSONObject sessionjson;
 		if (session == null) {
-			sessionjson = null;
+			json.put("session", JSONObject.NULL);
 		}else {
 			sessionjson = new JSONObject();
 			
@@ -44,9 +44,10 @@ public class SessionsLogic extends Logic {
 			sessionjson.put("lastAccessedTime", new Date(session.getLastAccessedTime()).toString());
 			sessionjson.put("maxInactiveInterval", session.getMaxInactiveInterval());
 			sessionjson.put("isNew", session.isNew());
+			
+			/*ajout de la session au json*/
+			json.put("session", sessionjson);
 		}
-		
-		json.put("session", sessionjson);
 		
 		return json;
 	}

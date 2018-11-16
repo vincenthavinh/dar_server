@@ -2,8 +2,8 @@ package logic;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import beans.Product;
 import beans.Question;
@@ -80,7 +80,7 @@ public class AnswersLogic extends Logic {
 			JSONArray prods = new JSONArray();
 			for(String pid : this.question.getProductsIds()) {
 				Product p = daoproduct.read(pid);
-				prods.add(this.toJSON(p));
+				prods.put(this.toJSON(p));
 			}			
 			json.put("products", prods);
 		}
@@ -89,8 +89,7 @@ public class AnswersLogic extends Logic {
 	}
 	
 	private JSONObject toJSON(Product p) {
-		JSONArray imgs = new JSONArray();
-		imgs.addAll(p.getImagesUrls());
+		JSONArray imgs = new JSONArray(p.getImagesUrls());
 		
 		JSONObject json = new JSONObject();
 		json.put("name", p.getName());

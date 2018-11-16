@@ -22,15 +22,9 @@ public class Test extends HttpServlet {
 	        String param = (String) parameterNames.nextElement();
 	        out.println(param + " = [" + req.getParameter(param) + "]<br/><br/>");
 	    }
+	   
+	    out.println("<br/><br>");
 	    
-	    //System.out.println("apikey : " + CDiscountUtils.getApiKey());
-	    
-	    
-	    /*-----------------*/
-//	    QuestionsLogic questionslogic = new QuestionsLogic(req);
-//	    questionslogic.newRandomQuestion(2);
-//	    
-//	    out.println("<br/><br/>");
-//	    ServletUtils.sendToClient(resp, questionslogic.toJSON());
+	    out.println("Ligne1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ligne2&#10;Ligne3&#13;Ligne4");
 	}
 }

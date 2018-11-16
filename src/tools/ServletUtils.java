@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.text.StringEscapeUtils;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 public class ServletUtils {
 
@@ -44,7 +44,7 @@ public class ServletUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		out.print(StringEscapeUtils.unescapeJson(json.toJSONString()));
+		out.println(json.toString(4));
 		out.flush();
 	}
 

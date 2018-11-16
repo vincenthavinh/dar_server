@@ -15,9 +15,7 @@ function answers_post() {
 	var xhttp = new XMLHttpRequest();
 	
 	/*sur reception de la reponse*/
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4) {
-			document.getElementById(r).innerHTML = this.responseText; }};
+	xhttp.onreadystatechange = createCallback(xhttp, r);
 
 	/*texte a envoyer*/
 	var params = "answer=" + document.getElementById(a).value;
@@ -33,9 +31,7 @@ function questions_get() {
 	var xhttp = new XMLHttpRequest();
 	
 	/*sur reception de la reponse*/
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4) {
-			document.getElementById(r).innerHTML = this.responseText; }};
+	xhttp.onreadystatechange = createCallback(xhttp, r);
 
 	/*envoi asynchrone au servlet*/
 	xhttp.open("GET", "questions" , true);
@@ -47,9 +43,7 @@ function sessions_delete() {
 	var xhttp = new XMLHttpRequest();
 	
 	/*sur reception de la reponse*/
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4) {
-			document.getElementById(r).innerHTML = this.responseText; }};
+	xhttp.onreadystatechange = createCallback(xhttp, r);
 
 	/*envoi asynchrone au servlet*/
 	xhttp.open("DELETE", "sessions" , true);
@@ -61,9 +55,7 @@ function sessions_get() {
 	var xhttp = new XMLHttpRequest();
 	
 	/*sur reception de la reponse*/
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4) {
-			document.getElementById(r).innerHTML = this.responseText; }};
+	xhttp.onreadystatechange = createCallback(xhttp, r);
 
 	/*envoi asynchrone au servlet*/
 	xhttp.open("GET", "sessions" , true);
@@ -76,9 +68,7 @@ function test() {
 	var xhttp = new XMLHttpRequest();
 
 	/*sur reception de la reponse*/
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4) {
-			document.getElementById(r).innerHTML = this.responseText; }};
+	xhttp.onreadystatechange = createCallback(xhttp, r);
 
 	/*texte a envoyer*/
 	var params = "?text=" + document.getElementById(t).value;
@@ -96,9 +86,7 @@ function users_post() {
 	var xhttp = new XMLHttpRequest();
 
 	/*sur reception de la reponse*/
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4) {
-			document.getElementById(r).innerHTML = this.responseText; }};
+	xhttp.onreadystatechange = createCallback(xhttp, r);
 	
 	/*texte a envoyer*/
 	var params = 
@@ -119,9 +107,7 @@ function sessions_post(){
 	var xhttp = new XMLHttpRequest();
 	
 	/*sur reception de la reponse*/
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4) {
-			document.getElementById(r).innerHTML = this.responseText; }};
+	xhttp.onreadystatechange = createCallback(xhttp, r);
 			
 	/*texte a envoyer*/
 	var params = 
@@ -132,4 +118,16 @@ function sessions_post(){
 	xhttp.open("POST", "sessions" , true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send(params);
+}
+
+function createCallback(xhttp, r){
+	return function() {
+		if (this.readyState == 4) {
+			var textarea = document.getElementById(r);
+			textarea.style.height = 'auto';
+			textarea.value = xhttp.responseText;
+			textarea.style.width = '100%';
+			textarea.style.height = textarea.scrollHeight + "px";
+		}
+	}
 }

@@ -6,8 +6,8 @@ import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.mongodb.ErrorCategory;
 import com.mongodb.MongoWriteException;
@@ -85,7 +85,18 @@ public class QuestionsLogic extends Logic {
 		List<String> productidlist = new ArrayList<String>();
 		
 		for(int i=0; i<nbProducts; i++) {
-		    productidlist.add(this.searchRandomProductId());
+			
+			/*random productID*/
+			String productid = searchRandomProductId();
+			
+			/*si pas deja tire avant, on l'ajoute a la liste*/
+			if(productidlist.contains(productid) == false) {
+				productidlist.add(productid);
+			/*si produit deja tire, on refait un tour dans le for*/
+			}else {
+				i--;
+				continue;
+			}
 		}
 		
 		List<Product> products = this.createProductsFromIds(productidlist);
@@ -94,11 +105,19 @@ public class QuestionsLogic extends Logic {
 	}
 	
 	private List<Product> createProductsFromIds(List<String> productidlist) throws Exception {
+		
+		/*liste des produits a retourner*/
 		ArrayList<Product> products = new ArrayList<Product>();
 		
+		/*Json renvoye par CDiscount contenant les informations des produits dont
+		 * les ids ont ete passes en argument de cette fonction*/
 		JSONObject json = CDiscountUtils.getProduct(productidlist);
-	    for(Object object : ((JSONArray) json.get("Products"))){
-	    	JSONObject product = (JSONObject) object;
+		
+		/*Pour chaque json product dans le tableau de json products de CDiscount*/
+	    for(Object obj1 : ((JSONArray) json.get("Products"))){
+	    	
+	    	/*creation d'un objet Product a partir du json product*/
+	    	JSONObject product = (JSONObject) obj1;
 	    	Product p = new Product();
 	    	p.setPid((String) product.get("Id"));
 		    p.setName((String) product.get("Name"));
@@ -112,6 +131,7 @@ public class QuestionsLogic extends Logic {
 		    }
 		    p.setImagesUrls(imgsUrls);
 		    
+		    /*ajout de l'objet Product cree a la liste de produits a retourner*/
 		    products.add(p);
 	    }
 	    
@@ -129,10 +149,10 @@ public class QuestionsLogic extends Logic {
 	    			+" => Retry");
 	    	return searchRandomProductId();
 	    }
-	    int randomint = rand.nextInt(((JSONArray) json.get("Products")).size());
+	    int randomint = rand.nextInt(((JSONArray) json.get("Products")).length());
 	    System.out.println("KEYWORD: "+ randomkeyword
 	    			+" | NBITEM: "+ json.get("ItemCount")
-	    			+" | JSONLENGTH: "+ ((JSONArray) json.get("Products")).size()
+	    			+" | JSONLENGTH: "+ ((JSONArray) json.get("Products")).length()
 	    			+" | RANDOMINT: "+ randomint);
 	    json = (JSONObject) ((JSONArray) json.get("Products")).get(randomint);
 	    return (String) json.get("Id");
@@ -149,7 +169,7 @@ public class QuestionsLogic extends Logic {
 		if(errors.isEmpty()) {
 			JSONArray prods = new JSONArray();
 			for(Product p : this.products) {
-				prods.add(this.toJSON(p));
+				prods.put(this.toJSON(p));
 			}
 			
 			json.put("price", this.question.getPrice());
@@ -160,8 +180,7 @@ public class QuestionsLogic extends Logic {
 	}
 	
 	private JSONObject toJSON(Product p) {
-		JSONArray imgs = new JSONArray();
-		imgs.addAll(p.getImagesUrls());
+		JSONArray imgs = new JSONArray(p.getImagesUrls());
 		
 		JSONObject json = new JSONObject();
 		json.put("name", p.getName());

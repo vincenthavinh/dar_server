@@ -6,57 +6,45 @@ import javax.servlet.http.HttpSession;
 import beans.User;
 import dao.DB;
 import dao.objects.DAOUser;
+import tools.CustomException;
+import tools.Field;
 
 public class SessionsLogic extends Logic {
 	
-	private DAOUser daouser;
+	private DAOUser daouser = new DAOUser(DB.get());
 	private static int maxInactiveTime = 300;
 	
-	public SessionsLogic(HttpServletRequest req) {
-		super(req);
-		daouser = new DAOUser(DB.get());
-	}
-	
-	public void connectUser() {
-		String username = getFieldValue(req, USERNAME_FIELD);
-		String password = getFieldValue(req, PASSWORD_FIELD);
+	public void connectUser(String username, String password, HttpServletRequest req) throws CustomException {
 		
-		/*check session deja existante*/
-		if(req.getSession(false) != null) {
-			errors.put(SESSION_FIELD, "Une session est déjà en cours.");
-		}
+		/* check pas de Session dans la HttpServletRequest */
+		checkNoSession(req.getSession(false));
 		
+		//on recupere l'utilisateur dans la bdd
 		User user  = daouser.read(username);
 		
 		/*check username*/
 		if(user ==null) {
-			errors.put(USERNAME_FIELD, "l'utilisateur ["+ username + "] n'existe pas.");
+			throw new CustomException(Field.USERNAME +":l'utilisateur ["+ username + "] n'existe pas.");
 		}
 		
 		/*check password*/
-		else if(password == null || !password.equals(user.getPassword())) {
-			errors.put(PASSWORD_FIELD, "mot de passe erroné.");
+		if(password == null || !password.equals(user.getPassword())) {
+			throw new CustomException(Field.PASSWORD+ ": erroné.");
 		}
 		
 		/*creation de la session*/
-		HttpSession session = null;
-		if(errors.isEmpty()) {
-			session = req.getSession();
-			session.setAttribute(USERNAME_FIELD, username);
-			session.setMaxInactiveInterval(maxInactiveTime);
-		}
+		HttpSession session = req.getSession(true);
+		session.setAttribute(Field.USERNAME, username);
+		session.setMaxInactiveInterval(maxInactiveTime);
 	}
 
-	public void invalidateSession() {
+	public void invalidateSession(HttpServletRequest req) throws CustomException {
 		HttpSession session = req.getSession(false);
 		
 		/*check session existante*/
-		if(session == null) {
-			errors.put(SESSION_FIELD, "Aucune session en cours.");
-		}
+		checkSession(session);
 		
-		if(errors.isEmpty()) {
-			session.invalidate();
-		}
+		/*suppression de la session*/
+		session.invalidate();
 	}
 }

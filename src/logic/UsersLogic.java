@@ -1,27 +1,27 @@
 package logic;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import beans.User;
 import dao.DB;
 import dao.objects.DAOUser;
+import tools.CustomException;
+import tools.Field;
 
 public class UsersLogic extends Logic {
 	
-	private DAOUser daouser;
+	private DAOUser daouser = new DAOUser(DB.get());
 	
-	public UsersLogic(HttpServletRequest req) {
-		super(req);
+	public UsersLogic() {
 		daouser = new DAOUser(DB.get());
 	}
 
-	public User newUser() {
-		String username = getFieldValue(req, USERNAME_FIELD);
-		String password = getFieldValue(req, PASSWORD_FIELD);
-		String confirmation = getFieldValue(req, CONFIRMATION_FIELD);
-
+	public User newUser(String username, String password, String confirmation, HttpSession session) throws CustomException {
 		User user = new User();
 
+		/* Session */
+		checkNoSession(session);
+		
 		/* Username */
 		checkUsername(username);
 		user.setUsername(username);
@@ -31,40 +31,27 @@ public class UsersLogic extends Logic {
 		user.setPassword(password);
 
 		/*ajout de l'utilisateur a la bdd*/
-		if(errors.isEmpty()) {
-			try {
-				daouser.create(user);
-			} catch (Exception e) {
-				errors.put("mongodb", "erreur survenue lors de l'insertion dans la bdd");
-			}
-		}
-
+		daouser.create(user);
+		
 		return user;
 	}
 
-	private void checkUsername(String username) {
+	private void checkUsername(String username) throws CustomException {
 		if (username == null || username.length() < 3) {
-			errors.put(USERNAME_FIELD, "Le nom d'utilisateur doit contenir au moins 3 caractères.");
-			return;
+			throw new CustomException(Field.USERNAME +": trop court (minimum 3 caractères).");
 		}
 		if (daouser.read(username) != null) {
-			errors.put(USERNAME_FIELD, "Le nom d'utilisateur est déjà utilisé.");
-			return;
+			throw new CustomException(Field.USERNAME +": déjà utilisé."); 
 		}
 	}
 
-	private void checkPasswordConfirmation(String password, String confirmation) {
-		if (password == null || confirmation == null) {
-			errors.put(PASSWORD_FIELD, "Merci de saisir et confirmer votre mot de passe.");
-			return;
+	private void checkPasswordConfirmation(String password, String confirmation) throws CustomException {
+		if (password == null || password.length() < 6) {
+			throw new CustomException(Field.PASSWORD +": trop court (minimum 6 caractères).");
 		}
-		if (!password.equals(confirmation)) {
-			errors.put(PASSWORD_FIELD, "Les mots de passe entrés sont différents, merci de les saisir à nouveau.");
-			return;
-		}
-		if (password.length() < 6) {
-			errors.put(PASSWORD_FIELD, "Les mots de passe doivent contenir au moins 6 caractères.");
-			return;
+		
+		if (confirmation == null || !password.equals(confirmation)) {
+			throw new CustomException(Field.CONFIRMATION +": différent du mot de passe.");
 		}
 	}
 

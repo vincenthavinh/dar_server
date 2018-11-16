@@ -1,16 +1,10 @@
 package dao.objects;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
-import org.json.simple.JSONObject;
-
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
-import com.mongodb.client.model.Projections;
-
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Sorts.*;
 import static com.mongodb.client.model.Projections.*;
@@ -47,16 +41,11 @@ public class DAOQuestion {
 		Document bson = new Document();
 		bson.put("qid", -1);
 		
-		int highestQid;
-		try {
-			highestQid = this.coll.find()
-				.sort(descending("qid"))
-				.projection(fields(include("qid"), excludeId()))
-				.limit(1)
-				.first().getQid();
-		}catch(Exception e) {
-			highestQid = 0;
-		}
+		int highestQid = this.coll.find()
+							.sort(descending("qid"))
+							.projection(fields(include("qid"), excludeId()))
+							.limit(1)
+							.first().getQid();
 		return highestQid;
 	}
 

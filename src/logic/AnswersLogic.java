@@ -1,6 +1,5 @@
 package logic;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -13,66 +12,58 @@ import dao.DB;
 import dao.objects.DAOProduct;
 import dao.objects.DAOQuestion;
 import dao.objects.DAOUser;
+import tools.CustomException;
+import tools.Field;
 
 public class AnswersLogic extends Logic {
 
-	private DAOProduct daoproduct;
-	private DAOQuestion daoquestion;
-	private DAOUser daouser;
+	private DAOProduct daoproduct = new DAOProduct(DB.get());
+	private DAOQuestion daoquestion = new DAOQuestion(DB.get());
+	private DAOUser daouser = new DAOUser(DB.get());
 	
-	private String answer;
 	private boolean rightAnswer;
 	private User user;
 	private Question question;
-	public AnswersLogic(HttpServletRequest req) {
-		super(req);
-		daoproduct = new DAOProduct(DB.get());
-		daoquestion = new DAOQuestion(DB.get());
-		daouser = new DAOUser(DB.get());
-	}
 
-	public void handleAnswer() {
+	public void handleAnswer(String answer, HttpSession session) throws CustomException {
 		
 		/*check session valide*/
-		HttpSession session = getValidSession();
-		if(session == null) {
-			return;
-		}
+		checkSession(session);
 		
 		/*question en cours dans la session*/
-		Integer qid = (Integer) session.getAttribute(QUESTION_FIELD);
+		Integer qid = (Integer) session.getAttribute(Field.QUESTION);
 		if(qid == null) {
-			errors.put(QUESTION_FIELD, "pas de question en cours dans la session");
-			return;
+			throw new CustomException(Field.QUESTION +": aucune en cours dans la session.");
 		}
-		
-		/*reponse*/
-		answer = (String) req.getParameter(ANSWER_FIELD);
 		
 		/*verification q&a match*/
 		rightAnswer = checkQandA(qid, answer);
 		
 		/*si bonne reponse, augmentation du score*/
-		String username = (String) session.getAttribute(USERNAME_FIELD);
+		String username = (String) session.getAttribute(Field.USERNAME);
 		
 		if(rightAnswer == true) {
-			try {
-				daouser.updateScoreAdd(username, 1);
-			} catch (Exception e) {
-				errors.put(DATABASE_FIELD, e.getMessage());
-			}
+			daouser.updateScoreAdd(username, 1);
 		}
 		
 		/*resultat*/
 		user = daouser.read(username);
 	}
 
-	private boolean checkQandA(int qid, String answer) {
+	private boolean checkQandA(int qid, String answer) throws CustomException {
 		question = daoquestion.read(qid);
-		Product product = daoproduct.read(answer);
 		
-		if(question.getProductsIds().contains(answer) 
-				&& question.getPrice().equals(product.getSalePrice())) {
+		if(answer == null || answer.equals("")) {
+			throw new CustomException(Field.ANSWER +": manquante dans la requête.");
+		}
+		
+		if(question.getProductsIds().contains(answer) == false) {
+			throw new CustomException(Field.ANSWER +": le produit répondu ["+ answer +"] ne fait pas partie des produits de la question.");
+		}
+		
+		Product product = daoproduct.read(answer);
+
+		if(question.getPrice().equals(product.getSalePrice())) {
 			return true;
 		}else {
 			return false;

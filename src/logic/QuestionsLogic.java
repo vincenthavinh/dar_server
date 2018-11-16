@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;import com.sun.imageio.plugins.png.PNGImageReaderSpi;
+import org.json.simple.JSONObject;
+
+import com.mongodb.ErrorCategory;
+import com.mongodb.MongoWriteException;
 
 import beans.Product;
 import beans.Question;
@@ -14,35 +18,30 @@ import dao.DB;
 import dao.objects.DAOProduct;
 import dao.objects.DAOQuestion;
 import tools.CDiscountUtils;
+import tools.Field;
 
 public class QuestionsLogic extends Logic {
 	
-	private DAOProduct daoproduct;
-	private DAOQuestion daoquestion;
+	private static String[] keywords = {"tablette", "smartphone", "ordinateur", "cuisine", "table", "siege"};
+	private static int qid_counter = new DAOQuestion(DB.get()).readHighhestQid();
+	private static Random rand = new Random();
+
+	
+	private DAOProduct daoproduct = new DAOProduct(DB.get());
+	private DAOQuestion daoquestion = new DAOQuestion(DB.get());
 	
 	private Question question;
 	private List<Product> products;
 	
-	private static String[] keywords = {"tablette", "smartphone", "ordinateur", "cuisine", "table", "siege"};
-	private static Random rand = new Random();
-	private static int qid_counter = new DAOQuestion(DB.get()).readHighhestQid();
 	
-	public QuestionsLogic(HttpServletRequest req) {
-		super(req);
-		daoproduct = new DAOProduct(DB.get());
-		daoquestion = new DAOQuestion(DB.get());
-	}
-
 	public List<Product> getProducts() {
 		return products;
 	}	
 	
-	public void newRandomQuestion(int nbProducts) {
+	public void newRandomQuestion(int nbProducts, HttpSession session) throws Exception {
 		
 		/*check session valide*/
-		if(getValidSession() == null) {
-			return;
-		}
+		checkSession(session);
 		
 		/*creation de produits aleatoires*/
 		this.products = getRandomProducts(nbProducts);
@@ -52,16 +51,22 @@ public class QuestionsLogic extends Logic {
 			//on essaye de stocker dans la BDD
 			try {
 				daoproduct.create(prod);
-			//si une erreur est levee c'est parce que le produit est deja dans la BDD, 
-			//on passe donc a la suite
-			}catch (Exception e) {
-				System.out.println(e.getMessage());
+				
+			}catch (MongoWriteException e) {
+				//si le produit est deja dans la BDD, on passe a la suite.
+				if(e.getError().getCategory() == ErrorCategory.DUPLICATE_KEY) {
+					System.out.println(e.getMessage());
+				//si c'est une autre erreur, on remonte l'erreur.
+				}else {
+					throw e;
+				}
 			}
 		}
 		
 		/*creation de la question avec prix aleatoire*/
 		this.question = new Question();
-		String username = (String) req.getSession(false).getAttribute(USERNAME_FIELD);
+		
+		String username = (String) session.getAttribute(Field.USERNAME);
 		question.setAuthor(username);
 		question.setQid(this.getAndIncrementQid_counter());
 		for(Product prod : products ) {
@@ -73,10 +78,10 @@ public class QuestionsLogic extends Logic {
 		daoquestion.create(question);
 		
 		/*sauvegarde de l'id de la question dans la session, pour pouvoir y repondre*/
-		getValidSession().setAttribute(QUESTION_FIELD, question.getQid());
+		session.setAttribute(Field.QUESTION, question.getQid());
 	}
 
-	private List<Product> getRandomProducts(int nbProducts) {
+	private List<Product> getRandomProducts(int nbProducts) throws Exception {
 		List<String> productidlist = new ArrayList<String>();
 		
 		for(int i=0; i<nbProducts; i++) {
@@ -88,7 +93,7 @@ public class QuestionsLogic extends Logic {
 		return products;
 	}
 	
-	private List<Product> createProductsFromIds(List<String> productidlist) {
+	private List<Product> createProductsFromIds(List<String> productidlist) throws Exception {
 		ArrayList<Product> products = new ArrayList<Product>();
 		
 		JSONObject json = CDiscountUtils.getProduct(productidlist);
@@ -113,7 +118,7 @@ public class QuestionsLogic extends Logic {
 	    return products;
 	}
 	
-	private String searchRandomProductId() {
+	private String searchRandomProductId() throws Exception {
 		String randomkeyword = keywords[rand.nextInt(keywords.length)];
 	    JSONObject json = CDiscountUtils.search(randomkeyword, 200, 1000);
 	    

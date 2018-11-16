@@ -1,16 +1,11 @@
 package dao.objects;
 
-import org.bson.conversions.Bson;
-
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 
 import static com.mongodb.client.model.Filters.*;
-import static com.mongodb.client.model.Sorts.*;
-import static com.mongodb.client.model.Projections.*;
-
 import beans.Product;
 
 public class DAOProduct {

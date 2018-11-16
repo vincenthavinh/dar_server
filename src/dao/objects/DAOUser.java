@@ -1,27 +1,16 @@
 package dao.objects;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
-import com.mongodb.client.model.Projections;
 import com.mongodb.client.result.UpdateResult;
 
 import static com.mongodb.client.model.Filters.*;
-import static com.mongodb.client.model.Sorts.*;
-import static com.mongodb.client.model.Projections.*;
-
-
-import java.util.Set;
-
-import static com.mongodb.client.model.Projections.*;
-
 import beans.User;
+import tools.CustomException;
+import tools.Field;
 
 
 public class DAOUser {
@@ -50,16 +39,15 @@ public class DAOUser {
 			return user;
 	}
 
-	/**---------------------------------UPDATE---------------------------------
+	/**---------------------------------UPDATE---------------------------------**/
 	
-	/**@throws Exception**/
-	public void updateScoreAdd(String username, int toAdd) throws Exception {
+	public void updateScoreAdd(String username, int toAdd) throws CustomException {
 
 		UpdateResult update = this.coll.updateOne(eq("username", username),
 				new Document("$inc", new Document("score", toAdd)));
 		
 		if(update.wasAcknowledged() == false)
-			throw new Exception("La maj du score de ["+ username +"] n'a pas pu etre faite");
+			throw new CustomException(Field.DATABASE +": la maj du score de ["+ username +"] n'a pas pu être faite (unacknowledged...).");
 	}
 	
 	/**---------------------------------DELETE---------------------------------**/

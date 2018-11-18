@@ -1,4 +1,4 @@
-package logic;
+package controller;
 
 import javax.servlet.http.HttpSession;
 

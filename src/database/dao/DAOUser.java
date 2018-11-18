@@ -1,4 +1,4 @@
-package dao.objects;
+package database.dao;
 
 import org.bson.Document;
 
@@ -10,13 +10,14 @@ import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.UpdateResult;
 
+import model.User;
+
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Sorts.descending;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import beans.User;
 import tools.CustomException;
 import tools.Field;
 

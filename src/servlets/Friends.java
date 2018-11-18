@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import logic.FriendsLogic;
+import controller.FriendsLogic;
 import tools.CustomException;
 import tools.Field;
 import tools.ServletUtils;

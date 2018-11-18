@@ -1,12 +1,12 @@
-package logic;
+package controller;
 
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import beans.User;
-import dao.DB;
-import dao.objects.DAOUser;
+import database.DB;
+import database.dao.DAOUser;
+import model.User;
 import tools.CustomException;
 import tools.Field;
 

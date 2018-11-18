@@ -1,14 +1,15 @@
-package dao.objects;
+package database.dao;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
+
+import model.Question;
+
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Sorts.*;
 import static com.mongodb.client.model.Projections.*;
-
-import beans.Question;
 
 public class DAOQuestion {
 	private MongoCollection<Question> coll;

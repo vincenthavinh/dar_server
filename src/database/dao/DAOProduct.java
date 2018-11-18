@@ -1,12 +1,13 @@
-package dao.objects;
+package database.dao;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 
+import model.Product;
+
 import static com.mongodb.client.model.Filters.*;
-import beans.Product;
 
 public class DAOProduct {
 

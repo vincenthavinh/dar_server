@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import logic.UsersLogic;
+import controller.UsersLogic;
 import tools.CustomException;
 import tools.Field;
 import tools.ServletUtils;
@@ -24,8 +24,10 @@ public class Users extends HttpServlet {
 			
 			String username = ServletUtils.getFieldValue(req, Field.USERNAME);
 			String password = ServletUtils.getFieldValue(req, Field.PASSWORD);
-			HttpSession session = req.getSession(false);
+			password = ServletUtils.hashPassword(password);
 			String confirmation = ServletUtils.getFieldValue(req, Field.CONFIRMATION);
+			confirmation = ServletUtils.hashPassword(confirmation);
+			HttpSession session = req.getSession(false);
 			
 			String firstname = ServletUtils.getFieldValue(req, Field.FIRSTNAME);
 			String name = ServletUtils.getFieldValue(req, Field.NAME);

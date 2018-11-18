@@ -1,4 +1,4 @@
-package logic;
+package controller;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import beans.User;
-import dao.DB;
-import dao.objects.DAOUser;
+import database.DB;
+import database.dao.DAOUser;
+import model.User;
 import tools.CustomException;
 import tools.Field;
 

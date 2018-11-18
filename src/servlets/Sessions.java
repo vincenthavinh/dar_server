@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import logic.SessionsLogic;
+import controller.SessionsLogic;
 import tools.CustomException;
 import tools.Field;
 import tools.ServletUtils;
@@ -23,6 +23,7 @@ public class Sessions extends HttpServlet {
 
 			String username = ServletUtils.getFieldValue(req, Field.USERNAME);
 			String password = ServletUtils.getFieldValue(req, Field.PASSWORD);
+			password = ServletUtils.hashPassword(password);
 
 			SessionsLogic sessionslogic = new SessionsLogic();
 			sessionslogic.connectUser(username, password, req);

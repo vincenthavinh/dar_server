@@ -1,17 +1,17 @@
-package logic;
+package controller;
 
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import beans.Product;
-import beans.Question;
-import beans.User;
-import dao.DB;
-import dao.objects.DAOProduct;
-import dao.objects.DAOQuestion;
-import dao.objects.DAOUser;
+import database.DB;
+import database.dao.DAOProduct;
+import database.dao.DAOQuestion;
+import database.dao.DAOUser;
+import model.Product;
+import model.Question;
+import model.User;
 import tools.CustomException;
 import tools.Field;
 

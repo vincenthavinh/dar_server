@@ -1,4 +1,4 @@
-package logic;
+package controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,11 @@ import org.json.JSONObject;
 import com.mongodb.ErrorCategory;
 import com.mongodb.MongoWriteException;
 
-import beans.Product;
-import beans.Question;
-import dao.DB;
-import dao.objects.DAOProduct;
-import dao.objects.DAOQuestion;
+import database.DB;
+import database.dao.DAOProduct;
+import database.dao.DAOQuestion;
+import model.Product;
+import model.Question;
 import tools.CDiscountUtils;
 import tools.Field;
 
@@ -149,7 +149,7 @@ public class QuestionsLogic extends Logic {
 	
 	private String searchRandomProductId() throws Exception {
 		String randomkeyword = keywords[rand.nextInt(keywords.length)];
-	    JSONObject json = CDiscountUtils.search(randomkeyword, 200, 1000);
+	    JSONObject json = CDiscountUtils.search(randomkeyword, 1, 1000);
 	    
 	    if(Integer.parseInt((String) json.get("ItemCount")) == 0) {
 	    	System.out.println("KEYWORD: "+ randomkeyword

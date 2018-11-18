@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import logic.QuestionsLogic;
+import controller.QuestionsLogic;
 import tools.CustomException;
 import tools.Field;
 import tools.ServletUtils;

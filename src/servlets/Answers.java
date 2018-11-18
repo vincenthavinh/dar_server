@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import logic.AnswersLogic;
+import controller.AnswersLogic;
 import tools.CustomException;
 import tools.Field;
 import tools.ServletUtils;

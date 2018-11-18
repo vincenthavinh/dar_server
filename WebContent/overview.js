@@ -9,6 +9,55 @@ function display(id) {
 	}
 }
 
+function friends_delete() {
+	var u = "friends_delete_username_id";
+	var r = "friends_delete_resp_id";
+	var xhttp = new XMLHttpRequest();
+	
+	/*sur reception de la reponse*/
+	xhttp.onreadystatechange = createCallback(xhttp, r);
+
+	/*texte a envoyer*/
+	var params = "?username=" + document.getElementById(u).value;
+	
+	/*envoi asynchrone au servlet*/
+	xhttp.open("DELETE", "friends" + params , true);
+	xhttp.send();
+}
+
+function friends_get() {
+	var u = "friends_get_username_id";
+	var r = "friends_get_resp_id";
+	var xhttp = new XMLHttpRequest();
+	
+	/*sur reception de la reponse*/
+	xhttp.onreadystatechange = createCallback(xhttp, r);
+
+	/*texte a envoyer*/
+	var params = "?username=" + document.getElementById(u).value;
+	
+	/*envoi asynchrone au servlet*/
+	xhttp.open("GET", "friends" + params , true);
+	xhttp.send();
+}
+
+function friends_post() {
+	var u = "friends_post_username_id";
+	var r = "friends_post_resp_id";
+	var xhttp = new XMLHttpRequest();
+	
+	/*sur reception de la reponse*/
+	xhttp.onreadystatechange = createCallback(xhttp, r);
+
+	/*texte a envoyer*/
+	var params = "username=" + document.getElementById(u).value;
+	
+	/*envoi asynchrone au servlet*/
+	xhttp.open("POST", "friends" , true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send(params);
+}
+
 function users_get() {
 	var m = "users_get_myself_id";
 	var u = "users_get_username_id";

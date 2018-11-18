@@ -40,6 +40,11 @@
 		<servlet-name>Answers</servlet-name>
 		<servlet-class>servlets.Answers</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>Friends</servlet-name>
+		<servlet-class>servlets.Friends</servlet-class>
+	</servlet>
 
 
 	<servlet-mapping>
@@ -70,6 +75,11 @@
 	<servlet-mapping>
 		<servlet-name>Answers</servlet-name>
 		<url-pattern>/answers</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Friends</servlet-name>
+		<url-pattern>/friends</url-pattern>
 	</servlet-mapping>
 
 

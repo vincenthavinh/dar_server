@@ -17,10 +17,6 @@ public class UsersLogic extends Logic {
 	
 	private DAOUser daouser = new DAOUser(DB.get());
 	
-	public UsersLogic() {
-		daouser = new DAOUser(DB.get());
-	}
-	
 	public void getMyself(HttpSession session, JSONObject result) throws CustomException {
 		
 		/*check session valide*/
@@ -47,6 +43,8 @@ public class UsersLogic extends Logic {
 			//infos publiques
 			userjson.put("username", user.getUsername());
 			userjson.put("score", user.getScore());
+			userjson.put("friends", user.getFriends());
+			
 			usersjson.put(userjson);
 		}
 	
@@ -65,8 +63,11 @@ public class UsersLogic extends Logic {
 		
 		for(User user : users) {
 			JSONObject userjson = new JSONObject();
+			
+			//infos publiques
 			userjson.put("username", user.getUsername());
 			userjson.put("score", user.getScore());
+			userjson.put("friends", user.getFriends());
 			
 			usersjson.put(userjson);
 		}

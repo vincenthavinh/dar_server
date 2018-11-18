@@ -5,14 +5,37 @@
 </head>
 <body>
 	<button onclick="display('test_id')">Servlet /test</button>
+	<button onclick="display('questions_id')">Servlet /questions</button>
+	<button onclick="display('answers_id')">Servlet /answers</button>
+	<br/>
 	<button onclick="display('users_id')">Servlet /users</button>
 	<button onclick="display('sessions_id')">Servlet /sessions</button>
-	<button onclick="display('questions_id')">Servlet /questions</button>
-	<button onclick="display('answers_id')">Servlet /answers</button>	
+	<button onclick="display('friends_id')">Servlet /friends</button>
+	
+	<div id="friends_id" hidden="hidden">
+		<h3>POST</h3>
+		<input id="friends_post_username_id" type="text" placeholder="username (friend to Add)" />
+		<input type="button" value="POST" onclick="friends_post()" />
+		<br/><br/>
+		<textarea id="friends_post_resp_id" autocomplete=off></textarea>
+		
+		<h3>GET</h3>
+		<p><i>peut être utilisé en étant <b>déconnecté</b>, et pour <b>n'importe quel username</b>.</i></p>
+		<input id="friends_get_username_id"  type="text" placeholder="username" />
+		<input type="button" value="GET" onclick="friends_get()" />
+		<br/><br/>
+		<textarea id="friends_get_resp_id" autocomplete=off></textarea>
+		
+		<h3>DELETE</h3>
+		<input id="friends_delete_username_id" type="text" placeholder="username (friend to Del)" />
+		<input type="button" value="POST" onclick="friends_delete()" />
+		<br/><br/>
+		<textarea id="friends_delete_resp_id" autocomplete=off></textarea>
+	</div>
 
 	<div id="test_id" hidden="hidden">
 		<h3>GET</h3>
-		<input type="text" id="test_text_id" placeholder="texte à envoyer" />
+		<input id="test_text_id" type="text" placeholder="texte à envoyer" />
 		<input type="button" value="GO" onclick="test()" />
 		<br/><br/>
 		<textarea id="test_resp_id" autocomplete=off></textarea>

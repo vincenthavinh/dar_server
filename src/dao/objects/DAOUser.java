@@ -38,7 +38,7 @@ public class DAOUser {
 	}
 	
 	/**---------------------------------READ---------------------------------**/
-	public User read(String username) {
+	public User read(String username) throws CustomException {
 		User user = this.coll.find(eq("username", username)).first();
 		return user;
 	}
@@ -78,7 +78,25 @@ public class DAOUser {
 				new Document("$inc", new Document("score", toAdd)));
 		
 		if(update.wasAcknowledged() == false)
-			throw new CustomException(Field.DATABASE +": la maj du score de ["+ username +"] n'a pas pu être faite (unacknowledged...).");
+			throw new CustomException(Field.DATABASE +": la màj du score de ["+ username +"] n'a pas pu être faite (unacknowledged...).");
+	}
+	
+	public void updateAddFriend(String username, String friendUsername) throws CustomException {
+		UpdateResult update = this.coll.updateOne(eq("username", username),
+				new Document("$push", new Document("friends", friendUsername)));
+		
+		if(update.wasAcknowledged() == false)
+			throw new CustomException(Field.DATABASE +": l'ajout d'amitié a échoué dans la BDD.");
+	
+	}
+	
+	public void updateRemoveFriend(String username, String friendUsername) throws CustomException {
+		UpdateResult update = this.coll.updateOne(eq("username", username),
+				new Document("$pull", new Document("friends", friendUsername)));
+		
+		if(update.wasAcknowledged() == false)
+			throw new CustomException(Field.DATABASE +": la suppression d'amitié a échoué dans la BDD.");
+	
 	}
 	
 	/**---------------------------------DELETE---------------------------------**/

@@ -1,5 +1,7 @@
 package beans;
 
+import java.util.List;
+
 public class User {
 
 	private String username;
@@ -8,6 +10,7 @@ public class User {
 	private String firstname;
 	private String name;
 	private String email;
+	private List<String> friends;
 	
 	public String getUsername() {
 		return username;
@@ -53,6 +56,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<String> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<String> friends) {
+		this.friends = friends;
 	}
 
 }

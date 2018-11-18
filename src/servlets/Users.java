@@ -49,6 +49,7 @@ public class Users extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
+			String myself = ServletUtils.getFieldValue(req, Field.MYSELF);
 			String username = ServletUtils.getFieldValue(req, Field.USERNAME);
 			HttpSession session = req.getSession(false);
 			
@@ -56,11 +57,13 @@ public class Users extends HttpServlet {
 			
 			UsersLogic userslogic = new UsersLogic();
 			
-
-			if(username != null) {
-				userslogic.getUser(username, session, result);
+			if(myself != null) {
+				userslogic.getMyself(session, result);
+			}
+			else if(username != null) {
+				userslogic.getUsers(username, session, result);
 			}else {
-				userslogic.getTop10Users(result);
+				userslogic.getUsers(result);
 			}
 			
 			ServletUtils.sendToClient(resp, result);

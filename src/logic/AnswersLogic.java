@@ -21,7 +21,7 @@ public class AnswersLogic extends Logic {
 	private DAOQuestion daoquestion = new DAOQuestion(DB.get());
 	private DAOUser daouser = new DAOUser(DB.get());
 	
-	public void handleAnswer(String answer, HttpSession session, JSONObject result) throws CustomException {
+	public void processAnswer(String answer, HttpSession session, JSONObject result) throws CustomException {
 		
 		/*check session valide*/
 		checkSession(session);
@@ -43,6 +43,9 @@ public class AnswersLogic extends Logic {
 			daouser.updateScoreAdd(username, 1);
 		}
 		
+		/*suppression de l'attribut question de la session pour 
+		 * empecher de repondre plusieurs fois a une question */
+		session.removeAttribute(Field.QUESTION);
 		
 		/*JSON resultat*/
 		User user = daouser.read(username);	

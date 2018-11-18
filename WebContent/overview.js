@@ -10,6 +10,7 @@ function display(id) {
 }
 
 function users_get() {
+	var m = "users_get_myself_id";
 	var u = "users_get_username_id";
 	var r = "users_get_resp_id";
 	var xhttp = new XMLHttpRequest();
@@ -18,7 +19,11 @@ function users_get() {
 	xhttp.onreadystatechange = createCallback(xhttp, r);
 	
 	/*texte a envoyer*/
-	var params = "?username=" + document.getElementById(u).value;
+	var params = "?username=" + document.getElementById(u).value
+				
+	if(document.getElementById(m).checked){
+		params += "&myself=true";
+	}
 
 	/*envoi asynchrone au servlet*/
 	xhttp.open("GET", "users" + params , true);

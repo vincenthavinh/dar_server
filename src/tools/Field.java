@@ -12,4 +12,5 @@ public class Field {
 	public static final String FIRSTNAME = "firstname";
 	public static final String NAME = "name";
 	public static final String EMAIL = "email";
+	public static final String MYSELF = "myself";
 }

@@ -32,7 +32,12 @@
 		<textarea id="users_post_resp_id" autocomplete=off></textarea>
 		
 		<h3>GET</h3>
-		<input id="users_get_username_id" type="text" placeholder="username (null = Top10)" />
+		<p><i>si <b>myself</b> est un paramètre de la requête, retourne toutes les infos de l'utilisateur de la session en cours.
+		<br/>sinon, si <b>username=string (non null)</b>, retourne les infos publiques des users dont l'username contient <b>string</b>.
+		<br/>sinon renvoie tous les users par ordre décroissant selon leur score.</i></p>	
+		<label for="users_get_myself_id">?myself=true</label>
+		<input id="users_get_myself_id" type="checkbox" name="myself">
+		<input id="users_get_username_id" type="text" placeholder="username (null)" />
 		<input type="button" value="GO" onclick="users_get()" />
 		<br/><br/>
 		<textarea id="users_get_resp_id" autocomplete=off></textarea>

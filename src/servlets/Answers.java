@@ -28,7 +28,7 @@ public class Answers extends HttpServlet {
 			JSONObject result = ServletUtils.jsonSucess();
 
 			AnswersLogic answerslogic = new AnswersLogic();
-			answerslogic.handleAnswer(answer, session, result);
+			answerslogic.processAnswer(answer, session, result);
 
 			ServletUtils.sendToClient(resp, result);
 

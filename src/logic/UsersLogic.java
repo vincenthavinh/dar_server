@@ -21,8 +21,45 @@ public class UsersLogic extends Logic {
 		daouser = new DAOUser(DB.get());
 	}
 	
-	public void getTop10Users(JSONObject result) {
-		List<User> users = daouser.readTop10Users();
+	public void getMyself(HttpSession session, JSONObject result) throws CustomException {
+		
+		/*check session valide*/
+		checkSession(session);
+		
+		User user = daouser.read((String) session.getAttribute(Field.USERNAME));
+		
+		//toutes les infos (publiques et privees) sauf le mdp.
+		JSONObject userjson = new JSONObject(user);
+		userjson.remove("password");
+		
+		result.put("user", userjson);
+		
+	}
+	
+	public void getUsers(JSONObject result) {
+		List<User> users = daouser.readUsers();
+		
+		JSONArray usersjson = new JSONArray();
+		
+		for(User user : users) {
+			JSONObject userjson = new JSONObject();
+			
+			//infos publiques
+			userjson.put("username", user.getUsername());
+			userjson.put("score", user.getScore());
+			usersjson.put(userjson);
+		}
+	
+		result.put("users", usersjson);
+	}
+	
+	public void getUsers(String search, HttpSession session, JSONObject result) throws CustomException {
+		
+		/* Recherche des users dont le username contient search */
+		List<User> users = daouser.readUsers(search);
+		if(users.size() == 0) {
+			throw new CustomException(Field.USERNAME +": aucun utilisateur ne correspond à la recherche ["+ search +"].");
+		}
 		
 		JSONArray usersjson = new JSONArray();
 		
@@ -30,38 +67,12 @@ public class UsersLogic extends Logic {
 			JSONObject userjson = new JSONObject();
 			userjson.put("username", user.getUsername());
 			userjson.put("score", user.getScore());
+			
 			usersjson.put(userjson);
-		}
-	
-		result.put("top10", usersjson);
-	}
-	
-	public void getUser(String username, HttpSession session, JSONObject result) throws CustomException {
-		
-		/* lecture de l'user associe a l'username demande*/
-		User user = daouser.read(username);
-		if(user == null) {
-			throw new CustomException(Field.USERNAME +": l'utilisateur ["+ username +"] n'existe pas.");
-		}
-		JSONObject userjson;
-		
-		
-		/* si session connectee et si request.username = session.username 
-		 * on renvoie toutes les infos (sauf mdp). */
-		if(session != null && username.equals((String) session.getAttribute("username"))) {
-			userjson = new JSONObject(user);
-			userjson.remove("password");
-		
-		/*sinon (pas de session connectee ou demande d'infos sur un autre user que soi)
-		 * on ne renvoie que les infos publiques. */
-		}else {
-			userjson = new JSONObject();
-			userjson.put("username", user.getUsername());
-			userjson.put("score", user.getScore());
 		}
 		
 		/* ajout des infos dans le json resultat */
-		result.put("user", userjson);
+		result.put("users", usersjson);
 	}
 	
 	public User newUser(String username, String password, String confirmation, String firstname, String name, String email, HttpSession session) throws CustomException {

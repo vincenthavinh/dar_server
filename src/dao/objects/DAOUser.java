@@ -7,6 +7,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.UpdateResult;
 
 import static com.mongodb.client.model.Filters.*;
@@ -39,24 +40,34 @@ public class DAOUser {
 	/**---------------------------------READ---------------------------------**/
 	public User read(String username) {
 		User user = this.coll.find(eq("username", username)).first();
-				
-		if(user == null)
-			return null;
-		else
-			return user;
+		return user;
 	}
-
-	public List<User> readTop10Users() {
-		MongoCursor<User> top10cursor = this.coll.find()
-				.sort(descending("score"))
-				.limit(10).iterator();
+	
+	public List<User> readUsers(String username) {
+		String regex = "(?i:.*"+ username + ".*)";
+		MongoCursor<User> usersCursor = this.coll.find(regex("username", regex))
+				.sort(Sorts.ascending("username"))
+				.iterator();
 		
-		ArrayList<User> top10 = new ArrayList<User>();
-		while(top10cursor.hasNext()) {
-			top10.add(top10cursor.next());
+		ArrayList<User> users = new ArrayList<User>();
+		while(usersCursor.hasNext()) {
+			users.add(usersCursor.next());
 		}
 		
-		return top10;
+		return users;
+	}
+
+	public List<User> readUsers() {
+		MongoCursor<User> usersCursor = this.coll.find()
+				.sort(descending("score"))
+				.iterator();
+		
+		ArrayList<User> users = new ArrayList<User>();
+		while(usersCursor.hasNext()) {
+			users.add(usersCursor.next());
+		}
+		
+		return users;
 	}
 	
 	/**---------------------------------UPDATE---------------------------------**/

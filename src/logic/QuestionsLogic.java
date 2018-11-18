@@ -22,7 +22,10 @@ import tools.Field;
 
 public class QuestionsLogic extends Logic {
 	
-	private static String[] keywords = {"tablette", "smartphone", "ordinateur", "cuisine", "table", "siege"};
+	private static String[] keywords = {
+			"tablette", "smartphone", "ordinateur", "cuisine", "table", "siege", 
+			"musique", "matelas", "TV", "robot", "chaussures", "VTT", "vin"
+			};
 	private static int qid_counter = new DAOQuestion(DB.get()).readHighhestQid();
 	private static Random rand = new Random();
 

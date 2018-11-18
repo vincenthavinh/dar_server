@@ -2,7 +2,6 @@ package dao.objects;
 
 import org.bson.Document;
 
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -11,9 +10,6 @@ import com.mongodb.client.model.Indexes;
 import com.mongodb.client.result.UpdateResult;
 
 import static com.mongodb.client.model.Filters.*;
-import static com.mongodb.client.model.Projections.excludeId;
-import static com.mongodb.client.model.Projections.fields;
-import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Sorts.descending;
 
 import java.util.ArrayList;

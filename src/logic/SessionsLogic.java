@@ -13,7 +13,6 @@ import dao.DB;
 import dao.objects.DAOUser;
 import tools.CustomException;
 import tools.Field;
-import tools.ServletUtils;
 
 public class SessionsLogic extends Logic {
 	

@@ -1,6 +1,5 @@
 package dao.objects;
 
-import org.bson.Document;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
@@ -37,12 +36,17 @@ public class DAOQuestion {
 	}
 
 	public int readHighhestQid() {
-		int highestQid = this.coll.find()
-							.sort(descending("qid"))
-							.projection(fields(include("qid"), excludeId()))
-							.limit(1)
-							.first().getQid();
-		return highestQid;
+		try {
+			int highestQid = this.coll.find()
+								.sort(descending("qid"))
+								.projection(fields(include("qid"), excludeId()))
+								.limit(1)
+								.first().getQid();
+			return highestQid;
+			
+		}catch(Exception e) {
+			return 0;
+		}
 	}
 
 	/** ---------------------------------UPDATE--------------------------------- **/

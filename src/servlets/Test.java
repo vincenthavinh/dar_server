@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import tools.CDiscountUtils;
+
 @SuppressWarnings("serial")
 public class Test extends HttpServlet {
 
@@ -20,11 +22,9 @@ public class Test extends HttpServlet {
 	    Enumeration<String> parameterNames = req.getParameterNames();
 	    while (parameterNames.hasMoreElements()) {
 	        String param = (String) parameterNames.nextElement();
-	        out.println(param + " = [" + req.getParameter(param) + "]<br/><br/>");
+	        out.println(param + " = [" + req.getParameter(param) + "]");
 	    }
 	   
-	    out.println("<br/><br>");
-	    
-	    out.println("Ligne1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ligne2&#10;Ligne3&#13;Ligne4");
+	    //out.println("\nkey: "+ CDiscountUtils.getApiKey());
 	}
 }

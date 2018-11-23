@@ -148,23 +148,36 @@ public class QuestionsLogic extends Logic {
 	}
 	
 	private String searchRandomProductId() throws Exception {
-		String randomkeyword = keywords[rand.nextInt(keywords.length)];
-	    JSONObject json = CDiscountUtils.search(randomkeyword, 1, 1000);
-	    
-	    if(Integer.parseInt((String) json.get("ItemCount")) == 0) {
-	    	System.out.println("KEYWORD: "+ randomkeyword
-	    			+" | NBITEM: "+ json.get("ItemCount")
-	    			+" | NBITEM: "+ json.get("ItemCount") 
-	    			+" => Retry");
-	    	return searchRandomProductId();
-	    }
-	    int randomint = rand.nextInt(((JSONArray) json.get("Products")).length());
-	    System.out.println("KEYWORD: "+ randomkeyword
-	    			+" | NBITEM: "+ json.get("ItemCount")
-	    			+" | JSONLENGTH: "+ ((JSONArray) json.get("Products")).length()
-	    			+" | RANDOMINT: "+ randomint);
-	    json = (JSONObject) ((JSONArray) json.get("Products")).get(randomint);
-	    return (String) json.get("Id");
+		String randomkeyword = null;
+		JSONObject json = null;
+		
+		for(int i =0; i<5; i++) {
+			randomkeyword = keywords[rand.nextInt(keywords.length)];
+		    json = CDiscountUtils.search(randomkeyword, 1, 1000);
+		    
+		    if(Integer.parseInt((String) json.get("ItemCount")) == 0) {
+		    	System.out.println("try "+ i +", KEYWORD: "+ randomkeyword
+		    			+" | NBITEM: "+ json.get("ItemCount")
+		    			+" | NBITEM: "+ json.get("ItemCount") 
+		    			+" => Retry");
+		    }else {
+		    	break;
+		    }
+		}
+		
+		if(Integer.parseInt((String) json.get("ItemCount")) != 0) {
+		    int randomint = rand.nextInt(((JSONArray) json.get("Products")).length());
+		    System.out.println("KEYWORD: "+ randomkeyword
+		    			+" | NBITEM: "+ json.get("ItemCount")
+		    			+" | JSONLENGTH: "+ ((JSONArray) json.get("Products")).length()
+		    			+" | RANDOMINT: "+ randomint);
+		    json = (JSONObject) ((JSONArray) json.get("Products")).get(randomint);
+		}else {
+			System.out.println("Problème avec l'API CDiscount, utilisation d'un random Product depuis notre base de données.");
+			return new DAOProduct(DB.get()).readRandomId();
+		}
+		
+		return (String) json.get("Id");
 	}
 
 	private synchronized int getAndIncrementQid_counter() {

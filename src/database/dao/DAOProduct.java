@@ -2,12 +2,16 @@ package database.dao;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 
 import model.Product;
 
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Aggregates.*;
+
+import java.util.Arrays;
 
 public class DAOProduct {
 
@@ -35,6 +39,12 @@ public class DAOProduct {
 			return product;
 	}
 	
+	public String readRandomId() {
+		Product product = this.coll.aggregate(
+				Arrays.asList(sample(1))).first();
+		
+		return product.getPid();
+	}
 	/**---------------------------------UPDATE---------------------------------**/
 	
 	/**---------------------------------DELETE---------------------------------**/
